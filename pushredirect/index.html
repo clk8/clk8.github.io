@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAJbSURBVDhPfZHrS5NhGMb7TwoKTXQm4oxCQSlJRYryw/4AP4VS0JfIWqGZZUKyspyKhwIrHWI2Q0Xt4Gysch7SHIXaYVtmc3iYc+f9et7tRZtaF9y83M97X7/3fq53D7vIHwzhDQTl7v/aAVje8GKY/4Xl9worHr98+m/tACy6POimrXRMWXk172DFuwVx+wKEw2G5i2oTIJ1La886XTz6aKVl0krThJXeuSU84nx4fgG9xYbrL6CkmA2kQfuah/pxGw/GbNwz29CIapteoFUAH4pyuH3ydFQxgEAojMsXRDv+k+pRG7c+2Ljx3s5N8bwj+obJBdb9seHuyGBDDMw4NygXxmvv7FwVVWmyoDGaMNjXiE1gF0BIbPFtcQpNfx9XRr6iNtmpN/bzpDKFinI1fv9/MpAS7u9p5NNEJy26bgaMjxmcaqVIXcr+vfsideJ4jvjI1jViAB3tT5kzX0ff8xzr9xm8i028aCvcNOccPcDruiQ81i7ZIQNCoRDaujpUp9Ix9RVxqVSNeeQ+Gz8ukputiJhPH4vDNlRIyL/C+ueaiFnS5gbBYJAiVSo6bR55ufkYulVMDxaQEBdPquIgM+0pOC3NVFdVsWouFo5onDFXaNZW8exuOorEJDprM9BrM1GmKSkrScPRd4hR3RluX1CyNKCUHdsAbreblw0ZKBLiqChJpqvmCFlZ2eg16QKQjKM3SVQi619qZcc2gCSf20nZuWxyM+MxNB0mP7+AN40CIJuX36rE3wrI07sAJIVFqMYRA7PDlykpPstQ80lWx87jcxilt9GhiOAPU0Rt8ZguCH0AAAAASUVORK5CYII=" type="image/png">
+<title>AdFly - Click Allow to continue</title>
+<style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        html {
+            background-color: #0a355b;
+            font-size: 62.5%;
+            font-family: Arial;
+        }
+        .arrow {
+            position: absolute;
+            background-color: white;
+            width: 8rem;
+            height: 14rem;
+            clip-path: polygon(50% 0, 90% 30%, 60% 30%, 60% 80%, 40% 80%, 40% 30%, 10% 30%);
+            transform: translate(25rem, 10rem);
+            animation: arrowMovement 1.5s infinite;
+        }
+        .logo {
+            display: block;
+            margin: 10rem auto;
+        }
+        .logo-wrapper > p {
+            text-align: center;
+            color: white;
+            font-size: 2.4rem;
+            font-weight: bold;
+            text-shadow: 0 0.5rem 4rem rgba(253, 255, 103, .5)
+        }
+
+        /*ANIMATION*/
+        @keyframes arrowMovement {
+            0% {transform: translate(25rem, 10rem);}
+            30% {transform: translate(25rem, 7rem);}
+            50% {transform: translate(25rem, 10rem);}
+            65% {transform: translate(25rem, 5rem);}
+            100% {transform: translate(25rem, 10rem);}
+        }
+
+        /*MEDIA QUERY MANAGER*/
+        @media only screen and (max-width: 1024px) {
+            .arrow {
+                display: none;
+            }
+            .logo {
+                margin: 2rem auto;
+            }
+        }
+        @media only screen and (max-width: 600px) {
+            .logo-wrapper > p {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    
+
+
+</head>
+<body>
+
+    <script>
+    
+           source = "am_push_redir.js"
+            var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', source);
+        document.body.appendChild(script);  
+        
+        
+    setInterval(noDisplayTimer, 5000);
+    function noDisplayTimer() {
+                    document.getElementById("no_display_msg").innerHTML = "(No permission window? No problem! <a href='' style='color:orange'>Click here</a> to continue)";
+                }           
+
+    </script>
+    
+        
+    
+    <div class="arrow"></div>
+
+    
+    <div class="logo-wrapper">
+        <img class="logo" src="static/image/logo.png" alt="logo">
+        <p>Нажмите «Allow», чтобы продолжить</p>
+        <p style="font-size: 14px; margin-top: 20px; color: silver;" id="no_display_msg"></p>
+    </div>
+
+
+    
+</body>
+
+</html>
