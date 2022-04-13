@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.2
+// @version      6.3
 // @description  Smol mod to be happy
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -20,6 +20,39 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
+function toRad(num) {
+    return num * (Math.PI / 180)
+}
+function errorspike(){
+    for (let i=0;i<6;i++){
+        let angle = myPlayer.dir + toRad(i * 60);
+        place(boostType, angle)
+        doNewSend(["ch", ["_{[0_0]}_"]]);
+    }
+    doNewSend(["13c", [0, 53, 0]]);
+    setTimeout( () => {
+        doNewSend(["13c", [0, 0, 1]]);
+        doNewSend(["13c", [0, 0, 0]]);
+            doNewSend(["13c", [0, 11, 1]]);
+            doNewSend(["13c", [0, 6, 0]]);
+            setTimeout( () => {
+                doNewSend(["ch", ["\-{|x_x|}-/"]]);
+            },1000);
+    }, 100);
+}
+
+function aim(x, y){
+    var cvs = document.getElementById("gameCanvas");
+    cvs.dispatchEvent(new MouseEvent("mousemove", {
+        clientX: x,
+        clientY: y
+
+    }));
+}
+var _0xda56=["\x61\x72\x65\x70\x6C\x61\x63\x65\x72","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x73\x42\x79\x43\x6C\x61\x73\x73\x4E\x61\x6D\x65","\x6C\x65\x6E\x67\x74\x68","\x72\x65\x6D\x6F\x76\x65\x43\x68\x69\x6C\x64","\x70\x61\x72\x65\x6E\x74\x4E\x6F\x64\x65"];var areplacer=document[_0xda56[1]](_0xda56[0]);var count=areplacer[_0xda56[2]];var i;for(i= 0;i< count;i++){areplacer[0][_0xda56[4]][_0xda56[3]](areplacer[0])}
+
+document.getElementById('adCard').remove(); //Ad-Block
+document.getElementById('errorNotification').remove(); //Error-Block
 window.dataLayer = window.dataLayer || [];
   function gtagx(){window.dataLayer.push(arguments);}
   gtagx('js', new Date());
@@ -237,7 +270,6 @@ let {
     Acc,
     IsSkull,
     Health,
-    aim,
     trap
 } = {
     myID: null,
@@ -407,25 +439,8 @@ document.getElementById("chatButton").style.color = "Blue";
 document.getElementById("storeButton").style.color = "Red";
 document.getElementById("enterGame").style=playButton;
 
-var i = 0;
-function move() {
-    if (i == 0) {
-        i = 1;
-        var elem = document.getElementById("myBar");
-        var width = 1;
-        var id = setInterval(frame, 10);
-        function frame() {
-            if (width >= 100) {
-                clearInterval(id);
-                i = 0;
-            } else {
-                width++;
-                elem.style.width = width + "%";
-            }
-        }
-    }
-}
-move();
+
+
 let hit360;
 let mouseX;
 let mouseY;
@@ -865,30 +880,33 @@ function equip(hat,acc) {
     doNewSend(["13c", [0, hat, 0]]);
     doNewSend(["13c", [0, acc, 1]]);
 }
+setInterval(()=>{
+    if (autoprimary) {
+        wep(primary);
+    } else if (autosecondary) {
+     wep(secondary);
+    }
+},5);
 function insta(id="sou br") {
-    autoaim = true;
-    chat(id)
-    equip(7,21);
-    wep(primary)
-    hit()
-    stophit()
-    stophit()
-    setTimeout(() => {
-        wep(secondary)
-        hit()
-        equip(53,13);
-        stophit()
-        stophit()
-    },230);
-    setTimeout(() => {
-        stophit()
-        stophit()
-        wep(primary)
-        equip(6,13);
-    },200);
-    autoaim = false;
-    stophit()
-    stophit()
+autoaim = true;
+    errorspike();
+        autoprimary = true;
+        autosecondary = false;
+        newSend(["13c", [0, 0, 1]]);
+        newSend(["5", [primary, true]]);
+        newSend(["7", [1]]);
+        newSend(["13c", [1, 7, 0]]);
+        newSend(["13c", [0, 7, 0]]);
+        newSend(["13c", [1, 21, 1]]);
+        newSend(["13c", [0, 21, 1]]);
+        setTimeout( () => {
+            autoprimary = false;
+            autosecondary = true;
+            newSend(["13c", [0, 0, 0]]);
+            newSend(["13c", [1, 53, 0]]);
+            newSend(["13c", [0, 53, 0]]);
+            newSend(["5", [secondary, true]]);
+        }, 35);
 }
 
 //document.querySelector("#healthnumber").style.display="block";
@@ -1193,6 +1211,7 @@ document.addEventListener('keydown', function (e) {
 
 
 CanvasAPI.oncontextmenu = function(e) {
+    errorspike();
     insta();
     e.preventDefault();
     e.stopPropagation();
@@ -1284,8 +1303,8 @@ let menu = {
         height_title_block: `${30}px`,
         border_body_block: `${5}px`,
         border_radius_body_block: `${7}px`,
-        font_size_title_block: `${8}px`,
-        font_size_inner_block: `${8}px`
+        font_size_title_block: `${10}px`,
+        font_size_inner_block: `${10}px`
     },
     colors: {
         background_title_block: `rgba(66, 66, 66, 0.61)`,
