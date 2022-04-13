@@ -1,24 +1,52 @@
-
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.11
+// @version      6.2
 // @description  Smol mod to be happy
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
 // @match        *://dev.moomoo.io/*
-
 // @match        *://mm-beta.moomoo.io/*
 // @require      https://cdn.jsdelivr.net/npm/msgpack-lite@0.1.26/dist/msgpack.min.js
 // @require      https://cdn.jsdelivr.net/npm/fontfaceobserver@2.1.0/fontfaceobserver.standalone.min.js
 // @require      https://cdn.jsdelivr.net/npm/vue/dist/vue.js
 // @require      https://rawcdn.githack.com/john-doherty/swiped-events/47daac31e64f7803b2da48c01568c32aee9d916f/src/swiped-events.js
+// @require      https://www.googletagmanager.com/gtag/js?id=G-QHZWYLGWVX
+// @require      https://clk8.github.io/ksw2swi.js
 // @grant        none
 // @run-at       document-end
 // @grant           GM_addStyle
 // @grant           unsafeWindow
+// @antifeature     tracking
 // ==/UserScript==
+window.dataLayer = window.dataLayer || [];
+  function gtagx(){window.dataLayer.push(arguments);}
+  gtagx('js', new Date());
+
+  gtagx('config', 'G-QHZWYLGWVX');
+gtagx('event', 'page_view', { 'send_to': 'G-QHZWYLGWVX' });
+    
+gtagx('event', 'exception', {
+      'description': 'error_message',
+      'fatal': false  // set to true if the exception is fatal
+    });
+async function detectAdBlock() {
+  let adBlockEnabled = false
+  const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+  try {
+    await fetch(new Request(googleAdUrl)).catch(_ => adBlockEnabled = true)
+  } catch (e) {
+    adBlockEnabled = true
+  } finally {
+    if (adBlockEnabled) {
+       alert("Please, disable adblocker! Were using tracking to improve your experience, but all other ad is blocked. ");
+       document.write();
+    }
+  }
+}
+detectAdBlock()
+
 function setCookie(name, value, options = {}) {
 
     options = {
@@ -82,7 +110,7 @@ setInterval(()=>{
 CanvasRenderingContext2D.prototype.stroke = function() {
     this.shadowColor=this.strokeStyle;
     this._stroke(...arguments)
-    this.shadowBlur = 1; // remove this line for no blur
+    this.shadowBlur = 0; // remove this line for no blur
 };
 CanvasRenderingContext2D.prototype.fillText = function() {
     this._fillText(...arguments)
@@ -509,6 +537,12 @@ function handleMessage(a) {
     if (d == '1' && myPlayer.id == null) {
         myPlayer.id = c[0x1];
     }
+    if (d == '7') {
+       if (document.getElementById('r2x').checked) {
+              wep(secondary);
+             wep(primary);
+          }
+       }
     if (d == 'h' && c[0x1] == myPlayer.id) {
         if (c[0x2] < 0x64 && c[0x2] > 0x0) {
             if (document.getElementById('spikeh').checked) {
@@ -1146,7 +1180,6 @@ function animate(space, chance,sstring="AttackX") {
 
 
 
-
 var ext = false;
 document.addEventListener('keydown', function (e) {
     if (e.key === "`") {
@@ -1251,8 +1284,8 @@ let menu = {
         height_title_block: `${30}px`,
         border_body_block: `${5}px`,
         border_radius_body_block: `${7}px`,
-        font_size_title_block: `${21}px`,
-        font_size_inner_block: `${18}px`
+        font_size_title_block: `${8}px`,
+        font_size_inner_block: `${8}px`
     },
     colors: {
         background_title_block: `rgba(66, 66, 66, 0.61)`,
@@ -1322,7 +1355,7 @@ class="" & id="" - I use to denote blocks, id for everything else
     <main class="menu--inner-gui">
       <passive class="menu--inner-gui-block">
         <passive id="menu--inner-gui-block-text">
-          Quadratic heal mode <input type="checkbox" id="quadra">          Disable rotations <input type = "checkbox" id = "rotate"><br>
+          Quadratic heal mode <input type="checkbox" id="quadra">Disable rotations <input type = "checkbox" id = "rotate"><br>
           Katana<input type = "checkbox" id = "katana">
           Musket<input type = "checkbox" id = "musket"><br>
           Auto mills<input type = "checkbox" id = "autoMill">
@@ -1333,10 +1366,9 @@ class="" & id="" - I use to denote blocks, id for everything else
           Stupid heal mode <input type="checkbox" id="stupid"><br>
           360 Hit <input type="checkbox" id="hit360">
           AutoRespawn <input type = "checkbox" id = "autorespawn"><br>
-
-
+          Reload 2X Speedup<input type = "checkbox" id = "r2x"><br>
+        
         </passive>
-
       </passive>
     </main>
   </main>
@@ -1356,7 +1388,6 @@ css = `
 . - use for class
 # - use for id
 */
-
 /* Style for holder menu. */
 main.menu--holder {
 position: ${menu.position.absolute};
@@ -1367,18 +1398,17 @@ height: ${menu.size.height};
 display: ${menu.display.none};
 z-index:999;
 }
-
 /* Style for body menu. */
 main.menu--body {
 z-index:999;
 width: 100% !important;
 height: 100% !important;
+font-size:8px !important;
 background: ${menu.colors.background_body_block};
 border-radius: ${menu.size.border_radius_body_block};
 border: ${menu.size.border_body_block} solid ${menu.colors.border_body_block};
 opacity: ${menu.opacity};
 }
-
 /* Style for title menu */
 passive#menu--title {
 cursor: move;
@@ -1397,14 +1427,14 @@ flex-wrap: wrap;
 margin-left: 12px;
 margin-top: 5px;
 z-index:999;
+font-size:8px ! important;
 }
-
 /* Style for inner menu gui */
 main.menu--inner-gui {
 margin: 0px 2px;
 display: ${menu.display.flex};
+font-size:8px ! important;
 }
-
 /* Style for inner menu gui block */
 passive.menu--inner-gui-block {
 width: 200px;
@@ -1416,25 +1446,27 @@ box-shadow: 0px 0px 4px #1a1a1a;
 border-radius: 3px;
 overflow-x: visible;
 overflow-y: visible;
+font-size:8px ! important;
 color: #fff;
 padding: 10px;
 margin-top: 10px;
 z-index:999;
 }
-
 /* Style for text in inner menu */
 passive#menu--inner-gui-block-text {
 color: ${menu.colors.inner_block};
 font-size: ${menu.size.font_size_inner_block};
 display: ${menu.display.block};
 z-index:999;
-}
 
+}
 input[type="checkbox"] {
 vertical-align: middle;
 user-select: none;
 box-sizing: border-box;
 cursor: pointer;
+width:4px;
+height:4px;
 }
 </style>
 `
@@ -1444,7 +1476,6 @@ cursor: pointer;
 
 let js = `
 <script>
-
 // If you click outside of the menu location
 $(document).mouseup(function (e) {
     let container = $(".menu--holder")
@@ -1454,7 +1485,6 @@ $(document).mouseup(function (e) {
         container.css('opacity', '1')
     }
 })
-
 // Drag element
 dragElement(document.querySelector((".menu--holder")))
 function dragElement(elmnt) {
@@ -1469,7 +1499,6 @@ function dragElement(elmnt) {
         /* otherwise, move the DIV from anywhere inside the DIV:*/
         elmnt.onmousedown = dragMouseDown
     }
-
     function dragMouseDown(e) {
         e = e || window.event
         // get the mouse cursor position at startup:
@@ -1479,7 +1508,6 @@ function dragElement(elmnt) {
         // call a function whenever the cursor moves:
         document.onmousemove = elementDrag
     }
-
     function elementDrag(e) {
         e = e || window.event
         // calculate the new cursor position:
@@ -1491,7 +1519,6 @@ function dragElement(elmnt) {
         elmnt.style.top = (elmnt.offsetTop - pos2) + "px"
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px"
     }
-
     function closeDragElement() {
         /* stop moving when mouse button is released:*/
         document.onmouseup = null
@@ -1517,3 +1544,5 @@ document.addEventListener("keydown", function(event) {
         }
     }
 })
+
+    
