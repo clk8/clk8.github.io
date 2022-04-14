@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.35
-// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta and more!!!
+// @version      6.48
+// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
@@ -13,13 +13,103 @@
 // @require      https://cdn.jsdelivr.net/npm/vue/dist/vue.js
 // @require      https://rawcdn.githack.com/john-doherty/swiped-events/47daac31e64f7803b2da48c01568c32aee9d916f/src/swiped-events.js
 // @require      https://www.googletagmanager.com/gtag/js?id=G-QHZWYLGWVX
-// @require      https://clk8.github.io/ksw2swi.js
 // @grant        none
 // @run-at       document-end
 // @grant           GM_addStyle
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
+
+/** FPS/PING BOOSTER BY AFK **/
+var int = window.setInterval(function() {//reduce lag
+  if(window.input != null) {
+    window.clearInterval(int);
+    onready();
+  }
+}, 100);
+function onready() {
+  let ping = false;
+  let t;
+  let samples = new Array(500);
+  let m;
+  let h = 0;
+  function getMax() {
+    let max = 0;
+    for(let i = 0; i < 500; ++i) {
+      if(samples[i] != null) {
+        if(samples[i] > max) {
+          max = samples[i];
+        }
+      } else {
+        break;
+      }
+    }
+    m = max;
+  }
+  function sleep(time) {
+    return new Promise(function(resolve) {
+      setTimeout(resolve, time);
+    });
+  }
+  WebSocket = class extends WebSocket {
+    constructor(ip) {
+      super(ip);
+      if(ip.match(/\.m28n\./) != null) {
+        samples = new Array(500);
+        h = 0;
+        ping = false;
+        this.send = new Proxy(this.send, {
+          apply: function(to, what, args) {
+            if(args[0].length == 1) {
+              ping = true;
+              t = new Date().getTime();
+            }
+            return to.apply(what, args);
+          }
+        });
+        let a = window.setInterval(function() {
+          if(this.onmessage != null) {
+            window.clearInterval(a);
+            this.onmessage = new Proxy(this.onmessage, {
+              apply: function(to, what, args) {
+                if(new Uint8Array(args[0].data).length == 1 && ping == true) {
+                  ping = false;
+                  samples[h] = new Date().getTime() - t;
+                  h = (h + 1) % 501;
+                  getMax();
+                }
+                return to.apply(what, args);
+              }
+            });
+          }
+        }.bind(this), 100);
+      }
+    }
+  }
+  window.m28.pow.solve = new Proxy(window.m28.pow.solve, {
+    apply: function(to, what, args) {
+      const time = new Date().getTime();
+      const f = args[2];
+      return to.apply(what, [args[0], args[1], async function(...g) {
+        if(args[1] == 17 && 10000 - m * 3 - new Date().getTime() + time > 0) {
+          await sleep(10000 - m * 3 - new Date().getTime() + time);
+        }
+        return f(...g);
+      }]);
+    }
+  });
+}
+window.Function = new Proxy(window.Function, {
+  construct: function(to, args) {//faster game play
+    let a = args[0].match(/(\w+)=function\(\)/)[1];
+    let b = args[0].match(/function\(\w+,(\w+)\){var (\w+)/);
+    return new to(args[0]
+                  .replace(/if\(!window\).*(\w{1,2}\[\w{1,2}\(-?'.{1,5}','.{1,5}'\)(?:\+'.{1,3}')?\])\((\w{1,2}),(\w{1,2}\[\w{1,2}\(-?'.{1,5}','.{1,5}'\)(?:\+'.{1,3}')?\])\);};.*/,`$1($2,$3)};`)
+                  .replace(/function \w+\(\w+\){.*?}(?=\w)(?!else)(?!continue)(?!break)/,"")
+                  .replace(/,window.*?\(\)(?=;)/,"")
+                  .replace(new RegExp(`,${a}=function.*?${a}\\(\\);?}\\(`),`;${b[2]}(${b[1]}+1)}(`));
+  }
+});
 function toRad(num) {
     return num * (Math.PI / 180)
 }
@@ -620,6 +710,13 @@ function handleMessage(a) {
 
         }
     }
+    if (d == "h" && d[1] == myPlayer.id) {
+        if (d[2] < 20 && d[2] > 0) {
+        chat("<A> Ur insta is trash </A>")
+        doHatCycle()
+        ifInsta();
+        }
+    }
     if (d=="p") {
         openn();
     }
@@ -880,13 +977,7 @@ function equip(hat,acc) {
     doNewSend(["13c", [0, hat, 0]]);
     doNewSend(["13c", [0, acc, 1]]);
 }
-setInterval(()=>{
-    if (autoprimary) {
-        wep(primary);
-    } else if (autosecondary) {
-     wep(secondary);
-    }
-},5);
+
 function insta(id="sou br") {
 autoaim = true;
     errorspike();
@@ -1213,6 +1304,7 @@ setInterval(() => {
         if (Date.now() - ka2.last >= 70) {
             for (let i = 0; i < (ka2.fix / (foodType === 0 ? 23 : 33)); i++) {
                 place(foodType, Infinity)
+                chat("<A>AttackX antiinsta</A>")
                 ka.last = Date.now()
             }
             ka2.tgl = false
