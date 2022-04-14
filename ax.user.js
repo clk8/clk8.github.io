@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.3
-// @description  Smol mod to be happy
+// @version      6.35
+// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta and more!!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
@@ -73,8 +73,7 @@ async function detectAdBlock() {
     adBlockEnabled = true
   } finally {
     if (adBlockEnabled) {
-       alert("Please, disable adblocker! Were using tracking to improve your experience, but all other ad is blocked. ");
-       document.write();
+       // ay ay
     }
   }
 }
@@ -114,7 +113,7 @@ if(getCookie("hacker")) {
     console.log("welcum")
 } else {
     alert("By using this mod, you are agree, that \n hacking is bad.")
-    setCookie("hacker",true)
+    setCookie("hacker","true")
 }
 
 console.log("%c Transparent Theme", "color: #B9E87E; font-size: 1.4em;");
@@ -559,6 +558,7 @@ function handleMessage(a) {
           }
        }
     if (d == 'h' && c[0x1] == myPlayer.id) {
+     ka2.last = c[0x2];
         if (c[0x2] < 0x64 && c[0x2] > 0x0) {
             if (document.getElementById('spikeh').checked) {
 
@@ -1208,7 +1208,30 @@ document.addEventListener('keydown', function (e) {
     };
 }); //spectator mode!
 
-
+setInterval(() => {
+    if (ka2.tgl == true) {
+        if (Date.now() - ka2.last >= 70) {
+            for (let i = 0; i < (ka2.fix / (foodType === 0 ? 23 : 33)); i++) {
+                place(foodType, Infinity)
+                ka.last = Date.now()
+            }
+            ka2.tgl = false
+        }
+    }
+}, 0.1)
+setInterval(() => {
+    if (document.getElementById("anti").checked && ka2.tgl == true) {
+        if (Date.now() - ka2.last >= 70) {
+            newSend(["c", [1, null]])
+            place(foodType)
+            Cycle(mult1, foodType)
+            newSend(["c", [0, null]])
+            chat("AXantiinsta")
+            ka2.last = Date.now()
+            ka2.tgl = false
+        }
+    }
+}, 0.1)
 
 CanvasAPI.oncontextmenu = function(e) {
     errorspike();
@@ -1386,6 +1409,7 @@ class="" & id="" - I use to denote blocks, id for everything else
           360 Hit <input type="checkbox" id="hit360">
           AutoRespawn <input type = "checkbox" id = "autorespawn"><br>
           Reload 2X Speedup<input type = "checkbox" id = "r2x"><br>
+          Anti-insta<input type = "checkbox" id = "anti"><br>
         
         </passive>
       </passive>
