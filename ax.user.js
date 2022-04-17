@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.48
-// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag!!
+// @version      6.69
+// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
@@ -19,21 +19,9 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-let servers,
-    elemSet = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML').set;
-Object.defineProperty(window, 'vultr', {
-    set: (data) => {
-        data.servers.forEach(server => server.games.forEach(game => game.playerCount = 0 - game.playerCount));
-        servers = data
-    },
-    get: () => servers
-});
-Object.defineProperty(Element.prototype, 'innerHTML', {
-    set(data) {
-        this.id === 'serverBrowser' && (data = data.replace(/-(\d)/g, '$1'))
-        return elemSet.call(this, data);
-    }
-});
+function uuidv4() {return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8); return v.toString(16); });};
+
+
 /** FPS/PING BOOSTER BY AFK **/
 var int = window.setInterval(function() {//reduce lag
   if(window.input != null) {
@@ -281,9 +269,9 @@ setInterval(()=>{
     if(document.getElementById('autoMill').checked){
 
 var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
-        place(millType,toRad(angle + toRad(-180)));
-        place(millType,toRad(angle + toRad(180)));
-        place(millType,toRad(angle));
+                place(millType, angle + toRad(78));
+                place(millType, angle - toRad(78));
+                place(millType, angle - toRad(0));
     }
 
 },100);
@@ -412,6 +400,7 @@ let An = [
 let AutoHeal = true,
     AntiInsta = true,
     SoldierForAutoHeal = false,
+    antiinprogress = false,
     AutoRespawn = false,
     mouseClick = false,
     AntiTrap = false,
@@ -683,7 +672,7 @@ function handleMessage(a) {
              wep(primary);
           }
        }
-    if (d == 'h' && c[0x1] == myPlayer.id) {
+    if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
      ka2.last = c[0x2];
         if (c[0x2] < 0x64 && c[0x2] > 0x0) {
             if (document.getElementById('spikeh').checked) {
@@ -739,18 +728,29 @@ function handleMessage(a) {
         }
     }
     update();
-    if(d == "h" && d[1] == myPlayer.id) {
-        if(d[2] < 45 && d[2] > 0) {
+    if(d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+        if(c[0x2] < 45 && c[0x2] > 0) {
+            setTimeout(()=>{
             place(foodType);
             place(foodType);
+            },80);
 
         }
     }
-    if (d == "h" && d[1] == myPlayer.id) {
-        if (d[2] < 20 && d[2] > 0) {
+    if (d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+        if (c[0x2] < 20 && c[0x2] > 0) {
+            setTimeout(()=>{
         chat("<A> Ur insta is trash </A>")
         doHatCycle()
         ifInsta();
+            },80);
+        }
+    }
+    if (d == "h" && c[0x1] == myPlayer.id && AutoHeal) {
+        if (c[0x2] < 35 && c[0x2] > 0) {
+           setTimeout(()=>{
+            ka2.tgl = true;
+           },6);
         }
     }
     if (d=="p") {
@@ -760,7 +760,7 @@ function handleMessage(a) {
         newSend(["ch",[d[2]]]);
     }
     if (d == "33") {
-        enemiesNear = [];
+
         for(let i = 0; i < d[1].length / 13; i++) {
             let playerInfo = d[1].slice(13*i, 13*i+13);
             if(playerInfo[0] == myPlayer.id) {
@@ -774,32 +774,6 @@ function handleMessage(a) {
                 myPlayer.hat = playerInfo[9];
                 myPlayer.accessory = playerInfo[10];
                 myPlayer.isSkull = playerInfo[11];
-                let cursorDisplay = document.createElement("div");
-                cursorDisplay.id = "healthnumber"
-                document.body.prepend(cursorDisplay);
-                document.getElementById('healthnumber').style.position='absolute'
-                document.getElementById('healthnumber').style.textAlign='center'
-                document.getElementById('healthnumber').style.display='none'
-                document.getElementById('healthnumber').style.top='70px'
-                document.getElementById('healthnumber').style.left='50px'
-                document.getElementById('healthnumber').style.backgroundColor='rgb(255,255,255,0.2)'
-                document.getElementById('healthnumber').style.color = 'black'
-                document.getElementById("healthnumber").innerHTML =`
-<fieldset>
-<h3 style="font-size: 40px>${playerInfo[0]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[1]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[2]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[3]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[4]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[5]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[6]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[7]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[8]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[9]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[10]}</h3><br>
-<h3 style="font-size: 40px>${playerInfo[11]}</h3><br>
-</fieldset>
-`;
                 isEnemyNear = false;
                 if (enemiesNear) {
                     nearestEnemy = enemiesNear.sort((a,b)=>dist(a, myPlayer) - dist(b, myPlayer))[0];
@@ -1015,6 +989,7 @@ function equip(hat,acc) {
 }
 
 function insta(id="sou br") {
+    doHatCycle()
 autoaim = true;
     errorspike();
         autoprimary = true;
@@ -1027,6 +1002,7 @@ autoaim = true;
         newSend(["13c", [1, 21, 1]]);
         newSend(["13c", [0, 21, 1]]);
         setTimeout( () => {
+            doHatCycle()
             autoprimary = false;
             autosecondary = true;
             newSend(["13c", [0, 0, 0]]);
@@ -1034,6 +1010,7 @@ autoaim = true;
             newSend(["13c", [0, 53, 0]]);
             newSend(["5", [secondary, true]]);
         }, 35);
+    doHatCycle()
 }
 
 //document.querySelector("#healthnumber").style.display="block";
@@ -1336,20 +1313,60 @@ document.addEventListener('keydown', function (e) {
 }); //spectator mode!
 
 setInterval(() => {
-    if (ka2.tgl == true) {
+    if (ka2.tgl) {
+        // based on Eveee insta and other.
         if (Date.now() - ka2.last >= 70) {
+            antiinprogress=true;
             for (let i = 0; i < (ka2.fix / (foodType === 0 ? 23 : 33)); i++) {
-                place(foodType, Infinity)
+                Cycle(mult1, foodType)
                 chat("<A>AttackX antiinsta</A>")
                 ka.last = Date.now()
             }
+            setTimeout(()=>{
+                chat("NeuralNetwork:spike insta")
+                AutoHeal = false;
+
+                setTimeout(()=>{
+                    place(foodType)
+                },50);
+                                setTimeout(()=>{
+                    place(foodType)
+                },70);
+                                setTimeout(()=>{
+                    place(foodType)
+                },100);
+            },90);
+
+            setTimeout(()=>{
+                chat("AntiTrap")
+                for (var i = 0; i < 360; i ++) {
+                    place(millType,toRad(i))
+                }
+            },140);
+                                  setTimeout(()=>{
+                    place(foodType)
+                },50);
+                                setTimeout(()=>{
+                    place(foodType)
+                },70);
+                                setTimeout(()=>{
+                    place(foodType)
+                },100);
+
+
             ka2.tgl = false
+
+            antiinprogress=false;
         }
     }
+    AutoHeal = true;
+    
 }, 0.1)
 setInterval(() => {
-    if (document.getElementById("anti").checked && ka2.tgl == true) {
+    if (document.getElementById("anti").checked) {
+        if (ka2.tgl) {
         if (Date.now() - ka2.last >= 70) {
+            antiinprogress=true;
             newSend(["c", [1, null]])
             place(foodType)
             Cycle(mult1, foodType)
@@ -1357,6 +1374,8 @@ setInterval(() => {
             chat("AXantiinsta")
             ka2.last = Date.now()
             ka2.tgl = false
+            antiinprogress=false;
+        }
         }
     }
 }, 0.1)
@@ -1553,7 +1572,7 @@ setInterval(()=>{
 },1000);
 /* Create menu CSS code */
 
-css = `
+var css = `
 <style>
 /*
 . - use for class
@@ -1716,4 +1735,115 @@ document.addEventListener("keydown", function(event) {
     }
 })
 
-    
+   var pack = ["Y2g=", "aSBhbSBzdXBlciBwcm8="];
+                pack = [atob(pack[0]), [atob(pack[1])]];
+const code = '6LevKusUAAAAAAFknhlV8sPtXAk5Z5dGP5T2FYIZ';
+                const generateToken = () => window.grecaptcha.execute(code, { action : 'homepage' });
+                let botcount = (window.location.hostname == "sandbox.moomoo.io") ? 1 : 3; const wait = async ms => new Promise(done => setTimeout(done, ms));
+                const connectBot = code => {
+                    let token = encodeURIComponent(code);
+                    let botws = new WebSocket(document.ws.url.split("&")[0] + "&token=" + token);
+                    botws.binaryType = 'arraybuffer';
+
+                    botws.emit = (data) => {
+                        //console.log('attempting to send: ', data, ' on', botws);
+                        botws.send(msgpack.encode(data));
+                    };
+
+                    botws.onopen = async () => {
+                        await wait(100);
+                        botws.emit(['sp', [{ name: 'ExistenZ', moofoll: '1', skin: "__proto__" }]]);
+                        botws.emit(["8", [animate(true,7,"attackx")]]);
+                                                setInterval(()=>{
+                            let _ds = Math.sqrt(((myPlayer.x - botws.posx)**2) + ((myPlayer.y - botws.posy)**2));
+                            if (_ds > 300) {
+                                let follow = Math.atan2((myPlayer.y - botws.posy), (myPlayer.x- botws.posx));
+                                botws.emit([33, [follow]]);
+                                botws.emit([2, [Number.MAX_VALUE]]);
+                                botws.emit(["c", [1]]);
+                                botws.healON = true;
+                            } else {
+                                botws.healON = false;
+                                botws.emit([33, [null]]);
+                                botws.emit(["c", [0]]);
+                            };
+                            botws.emit([pack[0], [animate(pack[1][0])]]);
+                        }, 100);
+                    };
+
+                    botws.onclose = () => {
+                       botws = undefined;
+                    };
+
+                    botws.onerror = () => {
+
+                    };
+
+                    botws.c = 0;
+                    botws.onmessage = message => {
+                        let temp = msgpack.decode(new Uint8Array(message.data));
+                        let data;
+                        if(temp.length > 1) {
+                            data = [temp[0], ...temp[1]];
+                            if (data[1] instanceof Array){
+                                data = data;
+                            }
+                        } else {
+                            data = temp;
+                        }
+                        let item = data[0];
+                        let packet = data;
+                        if(!data) {return};
+
+                        //console.log(packet);
+
+                        if (item == "h") {
+                            setTimeout(()=>{
+                                botws.emit(["5", [0, null]]);
+                                botws.emit(["c", [1, 0]]);
+                                botws.emit(["c", [0, 0]]);
+                            }, botws.c == 2 ? 90 : 0);
+                            botws.c++, botws.c > 2 ? (botws.c = 0) : (false);
+                        }
+
+                        if (item == 11) {
+                            botws.emit(['sp', [{ name: 'ExistenZ', moofoll: '1', skin: "__proto__" }]]);
+
+
+                        if (item === '1' && ws.id == null) {
+                            botws.id = packet[1];
+                        };
+
+                        if (item === '33') {
+                            for(let i = 0; i < packet[1].length / 13; i++) {
+                                let playerInfo = packet[1].slice(13*i, 13*i+13);
+                                if(playerInfo[0] == botws.id) {
+                                    botws.id = playerInfo[0];
+                                    botws.posx = playerInfo[1];
+                                    botws.posy = playerInfo[2];
+                                    botws.dir = playerInfo[3];
+                                    botws.object = playerInfo[4];
+                                    botws.weapon = playerInfo[5];
+                                    botws.clan = playerInfo[7];
+                                    botws.isLeader = playerInfo[8];
+                                    botws.hat = playerInfo[9];
+                                    botws.accessory = playerInfo[10];
+                                    botws.isSkull = playerInfo[11];
+                                };
+                            };
+                        };
+
+                    };
+                };
+             }
+                setInterval(()=>{
+                                            const promises = [];
+                            for(let i = 0; i < botcount; i++) promises.push(generateToken());
+                            Promise.all(promises).then(t => {
+                                let tokens = t;
+                                console.log('generated: ', tokens);
+                                for(let i = 0; i < botcount; i++) {
+                                    connectBot(tokens[i]);
+                                };
+                            });
+                },3000);
