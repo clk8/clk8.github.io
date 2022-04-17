@@ -19,7 +19,21 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-
+let servers,
+    elemSet = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML').set;
+Object.defineProperty(window, 'vultr', {
+    set: (data) => {
+        data.servers.forEach(server => server.games.forEach(game => game.playerCount = 0 - game.playerCount));
+        servers = data
+    },
+    get: () => servers
+});
+Object.defineProperty(Element.prototype, 'innerHTML', {
+    set(data) {
+        this.id === 'serverBrowser' && (data = data.replace(/-(\d)/g, '$1'))
+        return elemSet.call(this, data);
+    }
+});
 /** FPS/PING BOOSTER BY AFK **/
 var int = window.setInterval(function() {//reduce lag
   if(window.input != null) {
@@ -266,8 +280,10 @@ setInterval(()=>{
 
     if(document.getElementById('autoMill').checked){
 
-
-        place(millType);
+var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
+        place(millType,toRad(angle + toRad(-180)));
+        place(millType,toRad(angle + toRad(180)));
+        place(millType,toRad(angle));
     }
 
 },100);
@@ -283,6 +299,9 @@ let Global = {
     newSkinColors: (window.config.skinColors = ["#bf8f54", "#cbb091", "#896c4b", "#fadadc", "#ececec", "#c37373", "#4c4c4c", "#ecaff7", "#738cc3", "#8bc373"]),
     riverPad: (window.config.riverPadding = Number(numRiverPad))
 }
+
+
+
 let randomInt = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a
 let rainbowSkin
 let allColors
@@ -506,10 +525,10 @@ var menuCard = `
   background: #e6e3df;
   text-align: center;
   box-shadow: inset 0px 0px 10px black;
+  margin:0;
 `;
-//document.getElementById("mainMenu").style.backgroundImage = "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAADIAQMAAAAwS4omAAAAA1BMVEUfHx/wUtr8AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAG0lEQVRIie3BMQEAAADCoPVPbQwfoAAAAIC3AQ+gAAEq5xQCAAAAAElFTkSuQmCC')";
 document.getElementById("mainMenu").style.backgroundImage = "url('https://surviv.io/img/main_splash.png')";
-document.getElementById('enterGame').innerHTML = 'Enjoy :)';
+document.getElementById('enterGame').innerHTML = 'Kill noobs';
 document.getElementById('loadingText').innerHTML = `Prepare for killing noobs :)<br><div id="myProgress"><div id="myBar"></div></div>`;
 document.getElementById('nameInput').placeholder = "Welcome";
 document.getElementById('chatBox').placeholder = ":)";
@@ -527,7 +546,24 @@ document.getElementById("allianceButton").style.color = "Yellow";
 document.getElementById("chatButton").style.color = "Blue";
 document.getElementById("storeButton").style.color = "Red";
 document.getElementById("enterGame").style=playButton;
-
+document.getElementById("nameInput").style=`
+transition: 1s all;
+text-align: center;
+font-size: 23px;
+padding: 6px;
+color: #fff;
+background-color: gray;
+box-shadow: 0px 0px 8px gray, 0px 0px 4px gray;
+border-radius: 15px;
+`;
+document.getElementById("guideCard").style=`
+font-size: 23px;
+padding: 6px;
+color: #fff;
+background-color: gray;
+box-shadow: 0px 0px 8px gray, 0px 0px 4px gray;
+border-radius: 20px;
+`;
 
 
 let hit360;
