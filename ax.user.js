@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.72
-// @description  SuperMod combined with Xware,pancake,imod and rainbow mod. Hope i will like my hard work!
+// @version      6.82
+// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
@@ -19,42 +19,6 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-var logTime = []
-function overlay() {}
-var centreX = 100
-                var buildings = []
-                , logX = []
-                , logY = []
-                , crashed = !1
-                , centreY = 100
-                , ctxDis = 70
-                , ctxHeight = 80
-                , ctxExt = 65
-                , ctxWidth = .1
-                , pos = document.createElement("a");
-                var cvs = document.getElementById("gameCanvas")
-                , canvas = document.createElement("CANVAS");
-                canvas.id = "canvas", document.body.append(canvas), document.getElementById("canvas")
-                    .style.zIndex = "-1", document.getElementById("canvas")
-                    .style.pointerEvents = "none", document.getElementById("canvas")
-                    .style.background = "transparent", canvas.style.left = "0px", canvas.style.top = "0px", canvas.style.position = "absolute";
-                var ctx = canvas.getContext("2d");
-
-                function drawCircle(e, n, o, t, a) {
-                    ctx.beginPath(), ctx.arc(centreX + (e - myPlayer.x) / 6.25, centreY + (n - myPlayer.y) / 6.25, 3, 0, 2 * Math.PI), ctx.strokeStyle = a, ctx.moveTo(centreX + (e - myPlayer.x) / 6.25, centreY + (n - myPlayer.y) / 6.25), ctx.lineTo(centreX + (2 * e - o - myPlayer.x) / 6.25, centreY + (2 * n - t - myPlayer.y) / 6.25), ctx.stroke()
-                }
-
-                function drawRadar() {
-                    ctx.clearRect(0, 0, width, height), overlay(), ctx.lineWidth = 4, ctx.beginPath(), ctx.arc(centreX, centreY, 80, 0, 2 * Math.PI), ctx.strokeStyle = "#B3B3B3", ctx.stroke(), ctx.lineWidth = 1, ctx.beginPath(), ctx.arc(centreX, centreY, 5, 0, 2 * Math.PI), ctx.strokeStyle = "#0000FF", ctx.stroke();
-                    for (var e = (new Date)
-                         .getTime(); logTime && e - logTime[0] > 15e3;) logTime.shift(), logX.shift(), logY.shift();
-                    for (var n = 0; n < logTime.length; n++) ctx.beginPath(), ctx.strokeStyle = "#FF0022", ctx.arc(20 + logX[n] / 14400 * 130, height - 150 + logY[n] / 14400 * 130, 1, 0, 2 * Math.PI), ctx.stroke()
-                }
-
-                function distance(e, n) {
-                    return Math.sqrt(Math.pow(myPlayer.x - e, 2) + Math.pow(myPlayer.y - n, 2))
-                }
-
 function uuidv4() {return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8); return v.toString(16); });};
 
 
@@ -651,22 +615,13 @@ WebSocket.prototype.send = function(m){
 function socketFound(a) {
     a['addEventListener']('message', function (b) {
         handleMessage(b);
-        sendToBots(b)
     });
 }
 var cry = 3;
-var autoBreakLoop,autoBreakObject;
 var nearestEnemy;
 var nearestEnemyAngle;
-function sendToBots(a) {
-
-
-}
 function handleMessage(a) {
     let b = msgpack5['decode'](new Uint8Array(a['data']));
-    let n = msgpack5['decode'](new Uint8Array(a['data']));
-
-
     let c;
     if (b['length'] > 0x1) {
         c = [b[0x0], ...b[0x1]];
@@ -695,8 +650,6 @@ function handleMessage(a) {
         if (document.getElementById('autorespawn').checked){
             newSend(['sp', [{ name: 'MPAK', moofoll: '1', skin: "__proto__" }]]);
         }
-
-        newSend(['8',["AttackX"]])
     }
     if (d == '11') {
         //AutoRespawn to do better experence
@@ -793,25 +746,6 @@ function handleMessage(a) {
             },80);
         }
     }
-    if (d=="12"){
-                            try {if (n[1] == autoBreakObject[0]) {
-                                autoBreakLoop = false;
-                                autoBreakObject = [];
-                            }}catch(e){};
-                            for (var l = 0; l < buildings.length; l++) {
-                                if (buildings[l][0] == n[1]) {
-                                    logX.push(buildings[l][1]), logY.push(buildings[l][2]);
-                                    var p = new Date;
-                                    logTime.push(p.getTime()), buildings.splice(l, 1), l--
-                                }
-                            }
-    }
-                            if (d=="6") {
-                            for (var lo = 0; lo < n[1].length / 8; lo++) {
-                                var i = n[1].slice(8 * lo, 8 * lo + 8);
-                                buildings.push(i);
-                            };
-                            };
     if (d == "h" && c[0x1] == myPlayer.id && AutoHeal) {
         if (c[0x2] < 35 && c[0x2] > 0) {
            setTimeout(()=>{
@@ -825,7 +759,6 @@ function handleMessage(a) {
     if (d=="ch") {
         newSend(["ch",[d[2]]]);
     }
-    chat("X:${myPlayer.x}, Y:${myPlayer.y}")
     if (d == "33") {
 
         for(let i = 0; i < d[1].length / 13; i++) {
@@ -1028,7 +961,7 @@ function donewsend(data) {
 var nea=7385939**9494939**2647781*(Math.PI/180)
 
 const CanvasAPI = document.getElementById("gameCanvas");
-ctx = CanvasAPI.getContext("2d");
+var ctx = CanvasAPI.getContext("2d");
 setInterval(() => {
     if(autoaim == true) {
         doNewSend(["2", [nea]]);
@@ -1056,9 +989,10 @@ function equip(hat,acc) {
 }
 
 function insta(id="sou br") {
+    //Steal my insta and i will kill u.
+    chat("Enjoy the insta :DDD | by MPAK")
     doHatCycle()
 autoaim = true;
-    errorspike();
         autoprimary = true;
         autosecondary = false;
         newSend(["13c", [0, 0, 1]]);
@@ -1077,11 +1011,17 @@ autoaim = true;
             newSend(["13c", [0, 53, 0]]);
             newSend(["5", [secondary, true]]);
         }, 35);
-    doHatCycle()
+    doHatCycle();
+    setTimeout( ()=>{
+        place(boostType);
 
-    setTimeout(()=>{
-        place(spikeType);
-    },70);
+    },100);
+        setTimeout( ()=>{
+            var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
+        place(spikeType,toRad(angle + 90));
+            place(spikeType,toRad(angle - 90));
+
+    },210);
 }
 
 //document.querySelector("#healthnumber").style.display="block";
@@ -1346,7 +1286,7 @@ setInterval(function() {
     }
 }, 5);
 
-function animate(sstring="AttackX",space = 1, chance= sstring.lenth ) {
+function animate(space, chance,sstring="AttackX") {
     let result = '';
     let characters;
     if(space) {
@@ -1452,7 +1392,6 @@ setInterval(() => {
 }, 0.1)
 
 CanvasAPI.oncontextmenu = function(e) {
-    errorspike();
     insta();
     e.preventDefault();
     e.stopPropagation();
@@ -1805,130 +1744,4 @@ document.addEventListener("keydown", function(event) {
         }
     }
 })
-
-var botwslst = [];
-function botsemit(data) {
-    for (var i = 0; i < botwslst.length; i ++) {
-        let currentBotSocket = botwslst[i]
-        currentBotSocket.emit(msgpack.decode(data));
-    }
-
-}
-   var pack = ["Y2g=", "aSBhbSBzdXBlciBwcm8="];
-                pack = [atob(pack[0]), [atob(pack[1])]];
-const code = '6LevKusUAAAAAAFknhlV8sPtXAk5Z5dGP5T2FYIZ';
-                const generateToken = () => window.grecaptcha.execute(code, { action : 'homepage' });
-                let botcount = (window.location.hostname == "sandbox.moomoo.io") ? 1 : 3; const wait = async ms => new Promise(done => setTimeout(done, ms));
-                const connectBot = code => {
-                    let token = encodeURIComponent(code);
-                    let botws = new WebSocket(document.ws.url.split("&")[0] + "&token=" + token);
-
-                    botws.binaryType = 'arraybuffer';
-
-                    botws.emit = (data) => {
-                        //console.log('attempting to send: ', data, ' on', botws);
-                        try {
-                        botws.send(msgpack.encode(data));
-                        } catch(e) {}
-                    };
-
-                    botws.onopen = async () => {
-                        await wait(100);
-                        botws.emit(['sp', [{ name: 'ExistenZ', moofoll: '1', skin: "__proto__" }]]);
-                        botws.emit(["8", [animate("AttackX")]]);
-                        botwslst.push(botws)
-                                                setInterval(()=>{
-                            let _ds = Math.sqrt(((myPlayer.x - botws.posx)**2) + ((myPlayer.y - botws.posy)**2));
-                            if (_ds > 300) {
-                                let follow = Math.atan2((myPlayer.y - botws.posy), (myPlayer.x- botws.posx));
-                                botws.emit([33, [follow]]);
-                                botws.emit([2, [Number.MAX_VALUE]]);
-                                botws.emit(["c", [1]]);
-                               
-                            } else {
-                               
-                                botws.emit([33, [null]]);
-                                botws.emit(["c", [0]]);
-                            };
-                            botws.emit([pack[0], [animate(pack[1][0])]]);
-                        }, 100);
-                    };
- botws.c = 0;
-                    botws.onmessage = message => {
-                        let temp = msgpack.decode(new Uint8Array(message.data));
-                        let data;
-                        if(temp.length > 1) {
-                            data = [temp[0], ...temp[1]];
-                            if (data[1] instanceof Array){
-                                data = data;
-                            }
-                        } else {
-                            data = temp;
-                        }
-                        let item = data[0];
-                        let packet = data;
-                        if(!data) {return};
-if (item == '33') {
-                            for(let i = 0; i < packet[1].length / 13; i++) {
-                                let playerInfo = packet[1].slice(13*i, 13*i+13);
-                                if(playerInfo[0] == botws.id) {
-                                    botws.id = playerInfo[0];
-                                    botws.posx = playerInfo[1];
-                                    botws.posy = playerInfo[2];
-                                    botws.dir = playerInfo[3];
-                                    botws.object = playerInfo[4];
-                                    botws.weapon = playerInfo[5];
-                                    botws.clan = playerInfo[7];
-                                    botws.isLeader = playerInfo[8];
-                                    botws.hat = playerInfo[9];
-                                    botws.accessory = playerInfo[10];
-                                    botws.isSkull = playerInfo[11];
-                                };
-                            };
-                        };
-                        //console.log(packet);
-
-                        if (item == "h") {
-                            setTimeout(()=>{
-                                botws.emit(["5", [0, null]]);
-                                botws.emit(["c", [1, 0]]);
-                                botws.emit(["c", [0, 0]]);
-                            }, botws.c == 2 ? 90 : 0);
-                            botws.c++, botws.c > 2 ? (botws.c = 0) : (false);
-                        }
-
-                        if (item == 11) {
-                            botws.emit(['sp', [{ name: 'ExistenZ', moofoll: '1', skin: "__proto__" }]]);
-
-
-                                               if (item == '1' && ws.id == null) {
-                            botws.id = packet[1];
-                        };
-
-
-
-                        }
-                    }
-                    botws.onclose = () => {
-
-                       botws = botwslst[-1];
-                    };
-
-                    botws.onerror = () => {
-
-                    };
-
-                   
-                };
-             
-                setInterval(()=>{
-                                            const promises = [];
-                            for(let i = 0; i < botcount; i++) promises.push(generateToken());
-                            Promise.all(promises).then(t => {
-                                let tokens = t;
-                                console.log('generated: ', tokens);
-                                for(let i = 0; i < botcount; i++) {
-                                    connectBot(tokens[i]);
-                                };
-                            });
-                },3000);
+   
