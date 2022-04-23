@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.982
+// @version      6.983
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -368,7 +368,8 @@ let Global = {
     deathFade: window.config.deathFadeout,
     nameY: (window.config.nameY = newY),
     newSkinColors: (window.config.skinColors = ["#bf8f54", "#cbb091", "#896c4b", "#fadadc", "#ececec", "#c37373", "#4c4c4c", "#ecaff7", "#738cc3", "#8bc373"]),
-    riverPad: (window.config.riverPadding = Number(numRiverPad))
+    riverPad: (window.config.riverPadding = Number(numRiverPad)),
+    shameCount:(window.config.shameCount)
 }
 
 
@@ -707,7 +708,9 @@ var cry = 3;
 var nearestEnemy;
 var nearestEnemyAngle;
 let d;
+window.config.cowNames=["Porn guy","John penises","Motherfucka","Sussy baka","U are gay","I love you!"]
 function handleMessage(a) {
+
     let b = msgpack5['decode'](new Uint8Array(a['data']));
     let c;
     if (b['length'] > 0x1) {
@@ -754,10 +757,13 @@ function handleMessage(a) {
         myPlayer.id = c[0x1];
     }
     if (d == '7') {
+
        if (document.getElementById('r2x').checked) {
               wep(secondary);
              wep(primary);
           }
+
+
        }
     if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
      ka2.last = c[0x2];
@@ -993,7 +999,7 @@ function update() {
 var fadingspeed = 10 // lower = faster, higher = slower
 
 
-function e(e, n = d) {
+function ee(e, n = d) {
     document.getElementById(e).style["background-color"] = "hsl(" + n + ", 100%, 50%)";
 }
 function doNewSend(d) {
@@ -1024,7 +1030,7 @@ function doHatCycle() {
 
 setInterval(function() {
     (function(e, n) {
-        e(n);
+        ee(n);
     })(e, "ageBarBody");
     d++;
 }, fadingspeed);
@@ -1105,8 +1111,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function sing() {
-    var words = ["jajaja","","Ping x2 ping x3...","stop","pls","Yoo ping x8?","Infinite???","Nice logo","very Nice logo","Wait i recognize ts sumbol","Discord partner? Yooo","YOOOOO","yuh,aye,bru,skurrr","yuh,lmao,ayyyyy","Clyde,kinda,hoooot","LEEETS","GET","THIS","BREAAD","Help me","Reach i mill","you are breathtaking <3","aaaaaaaa","*End insta*","--x-[x]-x--","--a-[y]-e--","|         L|","|        Lm|","|       Lma|","|     Lmao|","|    Lmao |","|   Lmao  |",,"|  [!]  |","LETS GO!","AAAAA","Des","Pa","Cito","*;::;* DIIEEE *;::;*","Endless>>>"];
-
+    var words = ["So many stars,","So many deaths,","I cant count it so long","No more sun...","No more moon..","Only me and you.","Go back,dont stop.","Keep run form a bull..","You cant run","Ill hunt you down..","Say goodbay to the world..","No more hope,","No more fun.."]
 
 
 
@@ -1119,7 +1124,7 @@ async function sing() {
         newSend(["13c", [1, 21, 1]]);
         newSend(["13c", [0, 21, 1]]);
 
-        await sleep(200);
+        await sleep(1000);
     }
 }
 function insta(id="sou br") {
@@ -1197,9 +1202,37 @@ autoaim = true;
             newSend(["13c", [1, 53, 0]]);
             newSend(["13c", [0, 53, 0]]);
             newSend(["5", [secondary, true]]);
+                        newSend(["13c", [0, 0, 1]]);
+        newSend(["5", [primary, true]]);
+        newSend(["7", [1]]);
+    newSend([["2"],[Number.MAX_VALUE]])
+        newSend(["13c", [1, 7, 0]]);
+        newSend(["13c", [0, 7, 0]]);
+    newSend([["2"],[Number.MAX_VALUE]])
+        newSend(["13c", [1, 21, 1]]);
+        newSend(["13c", [0, 21, 1]]);
+    newSend([["2"],[Number.MAX_VALUE]])
         }, 70);
 
-    },550);
+    },675);
+
+    setTimeout(()=>{
+        // one tick insta!!
+                            newSend(["5", [secondary, true]])
+                    hat(53)
+                    setTimeout(() => {
+
+                        newSend([["2"],[Number.MAX_VALUE]])
+                        hat(7)
+                        newSend([["2"],[Number.MAX_VALUE]])
+                        newSend(["5", [primary, true]])
+                        newSend([["2"],[Number.MAX_VALUE]])
+                    }, 75)
+                    setTimeout(() => {
+                        angleGlitch2 = false
+                        newSend([["c"], [0]])
+                    }, 140)
+    },800);
 
 }
 function boostSpike() {
