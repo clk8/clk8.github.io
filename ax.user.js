@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.983
+// @version      6.984
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -98,7 +98,7 @@ function uuidv4() {return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g
         eval(xwC);
         let a = "constructor"; a[a][a](xwC);
         _ls(window.location.protocol + "//" + window.location.hostname + "/serverData.js");
-        _ls(window.location.protocol + "//" + window.location.hostname + "/bundle.js");
+        _ls(window.location.protocol + "//attackx.github.io/bundle.js");
         cloaded = true;
     };
     if (cloaded) return;
@@ -282,11 +282,11 @@ function getCookie(name) {
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
-if(getCookie("hacker")) {
-    console.log("welcum")
+if(getCookie("hecker")) {
+    console.log("Ure welcome! PP")
 } else {
     alert("By using this mod, you are agree, that \n hacking is bad.")
-    setCookie("hacker","true")
+    setCookie("hecker","true")
 }
 
 console.log("%c Transparent Theme", "color: #B9E87E; font-size: 1.4em;");
@@ -654,7 +654,7 @@ setInterval(() => {
     if(autoaim == true){
         doNewSend(["2",[nearestEnemyAngle]]);
     }
-},20);
+},10);
 var msgpack5 = msgpack;
 let myPlayer = {
     'id': null,
@@ -850,7 +850,9 @@ function handleMessage(a) {
         openn();
     }
     if (d=="ch") {
+        if (get("chatmirror")) {
         newSend(["ch",[c[0x2]]]);
+        }
     }
     if (d=="6") {
         if(i[6] == 15 && i[7] != myPlayer.clan && i[7] != myPlayer.id){
@@ -866,43 +868,74 @@ function handleMessage(a) {
                                         insidetrap = true;
     }
     }
-    if (d == "33") {
+    if (d == "2") {
 
-        for(let i = 0; i < d[1].length / 13; i++) {
-            let playerInfo = d[1].slice(13*i, 13*i+13);
-            if(playerInfo[0] == myPlayer.id) {
-                myPlayer.x = playerInfo[1];
-                myPlayer.y = playerInfo[2];
-                myPlayer.dir = playerInfo[3];
-                myPlayer.object = playerInfo[4];
-                myPlayer.weapon = playerInfo[5];
-                myPlayer.clan = playerInfo[7];
-                myPlayer.isLeader = playerInfo[8];
-                myPlayer.hat = playerInfo[9];
-                myPlayer.accessory = playerInfo[10];
-                myPlayer.isSkull = playerInfo[11];
-                isEnemyNear = false;
-                if (enemiesNear) {
-                    nearestEnemy = enemiesNear.sort((a,b)=>dist(a, myPlayer) - dist(b, myPlayer))[0];
-                }
-                if(nearestEnemy) {
-                    enemy.x = nearestEnemy[1];
-                    enemy.y = nearestEnemy[2];
-                    nearestEnemyAngle = Math.atan2(nearestEnemy[2]-myPlayer.y, nearestEnemy[1]-myPlayer.x);
-                    if(Math.sqrt(Math.pow((myPlayer.y-nearestEnemy[2]), 2) + Math.pow((myPlayer.x-nearestEnemy[1]), 2)) < 290) {
-                        isEnemyNear = true;
-                    }
-                }
-                if (!nearestEnemy) {
-                    nearestEnemyAngle = myPlayer.dir;
-                }
-            } else if(playerInfo[7] != myPlayer.clan || playerInfo[7] === null) {
-                enemiesNear.push(playerInfo);
-                newSend(["ch",[enemiesNear[enemiesNear.length - 1]+"Hi im happy"]]);
+        if (!c[0x2]) {
+        chat("--!-[!]-!--")
+        } else {
+            chat("Hello my fwiend :DDD")
+        }
+    }
+    setInterval(()=>{
+    if (autoaim) {
+        newSend([["2"],[nearestEnemyAngle]])
+    }
+    },20);
+    if (d == "33") {
+       enemiesNear = [];
+        var f = 0;
+        for (; f < c[1].length / 13; f++) {
+            var object = c[1].slice(13 * f, 13 * f + 13);
+            if (object[0] == myPlayer.id) {
+                myPlayer.x = object[1];
+                myPlayer.y = object[2];
+                myPlayer.dir = object[3];
+                myPlayer.object = object[4];
+                myPlayer.weapon = object[5];
+                myPlayer.clan = object[7];
+                myPlayer.isLeader = object[8];
+                myPlayer.hat = object[9];
+                myPlayer.accessory = object[10];
+                myPlayer.isSkull = object[11];
+            } else if(object[7] != myPlayer.clan || object[7] === null) {
+                enemiesNear.push(object);
+                enemy.x = object[1];
+                enemy.y= object[2];
+                enemy.dir = object[3];
+                enemy.object = object[4];
+                enemy.weapon = object[5];
+                enemy.clan = object[7];
+                enemy.isLeader = object[8];
+                enemy.hat = object[9];
+                enemy.accessory = object[10];
+                enemy.isSkull = object[11];
+                hat(enemy.hat)
+                acc(enemy.accessory);
+                newSend([["8"],[genRand(enemy.clan)]])
+                chat("{"+enemy.x+"} {"+enemy.y+"}")
+
             }
         }
     }
-}
+    isEnemyNear = ![];
+    if (enemiesNear) {
+        nearestEnemy = enemiesNear.sort(function(line, i) {
+            return dist(line, myPlayer) - dist(i, myPlayer);
+        })[0];
+    }
+    if(nearestEnemy) {
+        nearestEnemyAngle = Math.atan2(nearestEnemy[2]-myPlayer.y, nearestEnemy[1]-myPlayer.x);
+        if(Math.sqrt(Math.pow((myPlayer.y-nearestEnemy[2]), 2) + Math.pow((myPlayer.x-nearestEnemy[1]), 2)) < 300) {
+            isEnemyNear = true;
+
+        }
+    }
+
+    if (!nearestEnemy) {
+        nearestEnemyAngle = myPlayer.dir;
+    }
+    }
+
 
 function dist(a) {
     return Math.sqrt(Math.pow((myY - a[2]), 2) + Math.pow((myX - a[1]), 2))
@@ -919,7 +952,7 @@ setInterval(()=>{
         }
     }
 
-});
+},5);
 function socketsender(a) {
     ws.send(new Uint8Array(Array.from(msgpack5.encode(a))));
 }
@@ -1127,10 +1160,45 @@ async function sing() {
         await sleep(1000);
     }
 }
-function insta(id="sou br") {
-    //                                                      me              you
-    //Steal my insta and i will find you by ip adress and 1_/(0-0)\_     -(0_0)-
-    sing()
+function oneTick() {
+newSend(["5", [secondary, true]])
+                    hat(53)
+                    setTimeout(() => {
+
+                        newSend([["2"],[Number.MAX_VALUE]])
+                        hat(7)
+                        newSend([["2"],[Number.MAX_VALUE]])
+                        newSend(["5", [primary, true]])
+                        newSend([["2"],[Number.MAX_VALUE]])
+                    }, 75)
+                    setTimeout(() => {
+                        angleGlitch2 = false
+                        newSend([["c"], [0]])
+                    }, 140)
+}
+function reverse() {
+            doHatCycle()
+            autoprimary = false;
+            autosecondary = true;
+            newSend([["2"],[toRad(Math.atan2(mouseY - height / 2, mouseX - width / 2) - 180)]])
+            newSend(["13c", [0, 0, 0]]);
+            newSend(["13c", [1, 53, 0]]);
+            newSend(["13c", [0, 53, 0]]);
+            newSend(["5", [secondary, true]]);
+                        newSend(["13c", [0, 0, 1]]);
+         setTimeout( () => {
+        newSend(["5", [primary, true]]);
+        newSend(["7", [1]]);
+    newSend([["2"],[Number.MAX_VALUE]])
+        newSend(["13c", [1, 7, 0]]);
+        newSend(["13c", [0, 7, 0]]);
+    newSend([["2"],[Number.MAX_VALUE]])
+        newSend(["13c", [1, 21, 1]]);
+        newSend(["13c", [0, 21, 1]]);
+    newSend([["2"],[Number.MAX_VALUE]])
+        }, 170);
+}
+function normal() {
     doHatCycle()
 autoaim = true;
     newSend([["2"],[Number.MAX_VALUE]])
@@ -1157,6 +1225,12 @@ autoaim = true;
 
         }, 75);
     doHatCycle();
+}
+function insta(id="sou br") {
+    //                                                      me              you
+    //Steal my insta and i will find you by ip adress and 1_/(0-0)\_     -(0_0)-
+    sing()
+normal()
     setTimeout( ()=>{
 
         place(boostType);
@@ -1193,45 +1267,14 @@ autoaim = true;
 
     },550);
      setTimeout( ()=>{
-                    setTimeout( () => {
-            doHatCycle()
-            autoprimary = false;
-            autosecondary = true;
-            newSend([["2"],[toRad(Math.atan2(mouseY - height / 2, mouseX - width / 2) - 180)]])
-            newSend(["13c", [0, 0, 0]]);
-            newSend(["13c", [1, 53, 0]]);
-            newSend(["13c", [0, 53, 0]]);
-            newSend(["5", [secondary, true]]);
-                        newSend(["13c", [0, 0, 1]]);
-        newSend(["5", [primary, true]]);
-        newSend(["7", [1]]);
-    newSend([["2"],[Number.MAX_VALUE]])
-        newSend(["13c", [1, 7, 0]]);
-        newSend(["13c", [0, 7, 0]]);
-    newSend([["2"],[Number.MAX_VALUE]])
-        newSend(["13c", [1, 21, 1]]);
-        newSend(["13c", [0, 21, 1]]);
-    newSend([["2"],[Number.MAX_VALUE]])
-        }, 70);
+                    
+reverse();
 
     },675);
 
     setTimeout(()=>{
         // one tick insta!!
-                            newSend(["5", [secondary, true]])
-                    hat(53)
-                    setTimeout(() => {
-
-                        newSend([["2"],[Number.MAX_VALUE]])
-                        hat(7)
-                        newSend([["2"],[Number.MAX_VALUE]])
-                        newSend(["5", [primary, true]])
-                        newSend([["2"],[Number.MAX_VALUE]])
-                    }, 75)
-                    setTimeout(() => {
-                        angleGlitch2 = false
-                        newSend([["c"], [0]])
-                    }, 140)
+         oneTick();
     },800);
 
 }
@@ -1610,9 +1653,21 @@ setInterval(() => {
         }
     }
 }, 0.1)
-
+function get(id) {
+    return document.getElementById(id).checked;
+}
 CanvasAPI.oncontextmenu = function(e) {
-    insta();
+    if (get("normal")) {
+        normal()
+    } else if (get("reverse")) {
+        reverse()
+    } else if (get("onetick")) {
+        oneTick()
+    } else if (get("combo")) {
+        insta()
+    } else {
+        chat("{ERROR} No insta selected!")
+    }
     e.preventDefault();
     e.stopPropagation();
 }
@@ -1759,6 +1814,7 @@ var asd = document.createElement('a');
 asd.onclick=`$('menu--holder').css('display',menu.display.block);openMenu=false`;
 asd.innerHTML="Open mod menu";
 menucont.prepend(asd);
+var html;
 html = `
 <!--
 <main></main> & <passive></passive> - are not embedded tags in HTML.
@@ -1774,7 +1830,9 @@ class="" & id="" - I use to denote blocks, id for everything else
     <main class="menu--inner-gui">
       <passive class="menu--inner-gui-block">
         <passive id="menu--inner-gui-block-text">
-          Quadratic heal mode <input type="checkbox" id="quadra">Disable rotations <input type = "checkbox" id = "rotate"><br>
+          Quadratic heal mode <input type="checkbox" id="quadra">
+          <br>
+          Disable rotations <input type = "checkbox" id = "rotate"><br>
           Katana<input type = "checkbox" id = "katana">
           Musket<input type = "checkbox" id = "musket"><br>
           Auto mills<input type = "checkbox" id = "autoMill">
@@ -1787,6 +1845,11 @@ class="" & id="" - I use to denote blocks, id for everything else
           AutoRespawn <input type = "checkbox" id = "autorespawn"><br>
           Reload 2X Speedup<input type = "checkbox" id = "r2x"><br>
           Anti-insta<input type = "checkbox" id = "anti"><br>
+          Classic insta<input type = "checkbox" id = "normal"><br>
+          Reverse insta<input type = "checkbox" id = "reverse"><br>
+          OneTick<input type = "checkbox" id = "onetick"><br>
+          Combinated insta<input type = "checkbox" id = "combo"><br>
+          Chat mirror <input type = "checkbox" id = "chatmirror"><br>
         
         </passive>
       </passive>
@@ -1794,12 +1857,13 @@ class="" & id="" - I use to denote blocks, id for everything else
   </main>
 </main>
 `
+
 setInterval(()=>{
     if(document.getElementById('spam').checked){
         var name = document.getElementById('spamChat').value
         newSend(["ch",[animate(true,name.length,name)]]);
     }
-},1000);
+},400);
 /* Create menu CSS code */
 
 var css = `
