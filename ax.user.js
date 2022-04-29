@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.984
+// @version      6.985
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -353,9 +353,10 @@ var angle = Math.atan2(mouseY - height / 2, mouseX - width / 2);
                 place(millType, angle + toRad(78));
                 place(millType, angle - toRad(78));
                 place(millType, angle - toRad(0));
+        wep(primary)
     }
 
-},100);
+},50);
 //lmao
 
 
@@ -764,6 +765,14 @@ function handleMessage(a) {
           }
 
 
+
+       }
+    if (d == '6') {
+
+
+        wep(primary);
+
+
        }
     if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
      ka2.last = c[0x2];
@@ -844,6 +853,11 @@ function handleMessage(a) {
            setTimeout(()=>{
             ka2.tgl = true;
            },6);
+        }
+    }
+    if (d == "h" && c[0x1] == myPlayer.id && AutoHeal) {
+        if (c[0x2] < 70 && c[0x2] > 0) {
+           place(foodType);
         }
     }
     if (d=="p") {
@@ -1144,8 +1158,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function sing() {
-    var words = ["So many stars,","So many deaths,","I cant count it so long","No more sun...","No more moon..","Only me and you.","Go back,dont stop.","Keep run form a bull..","You cant run","Ill hunt you down..","Say goodbay to the world..","No more hope,","No more fun.."]
-
+    var words = ["|            |","|           Y|","|          YO|","|         YO |","|        YO  |","|       YO   |","|      YO    |","|     YO     |","|    YO     |"]
 
 
     for (var i =0; i < words.length; i++) {
@@ -1157,7 +1170,7 @@ async function sing() {
         newSend(["13c", [1, 21, 1]]);
         newSend(["13c", [0, 21, 1]]);
 
-        await sleep(1000);
+        await sleep(500);
     }
 }
 function oneTick() {
@@ -1850,6 +1863,7 @@ class="" & id="" - I use to denote blocks, id for everything else
           OneTick<input type = "checkbox" id = "onetick"><br>
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
+          <button id = "killping">Crash server</button>
         
         </passive>
       </passive>
@@ -1857,6 +1871,7 @@ class="" & id="" - I use to denote blocks, id for everything else
   </main>
 </main>
 `
+
 
 setInterval(()=>{
     if(document.getElementById('spam').checked){
@@ -2028,7 +2043,13 @@ document.addEventListener("keydown", function(event) {
         }
     }
 })
-   
+   document.getElementById('killping').addEventListener('click',async function(){
+    newSend(["ch",["Are you pinged? :DDDDD"]]);
+       await sleep(300)
+    for (var i = 0;i<99999999;i++) {
+        newSend(["ch"],[i])
+    }
+})
                 function genRand(string) {
                     let tm = string.split("");
                     tm = tm.map(e => {return Math.random() > 0.7 ? (
