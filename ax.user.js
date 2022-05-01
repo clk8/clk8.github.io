@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      7
+// @version      7.1
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -930,7 +930,7 @@ if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
     }
         }
         yes()
-    },90);
+    },45);
 
         
 }
@@ -2258,111 +2258,3 @@ document.addEventListener("keydown", function(event) {
                     }
                 };
 
-   var pack = ["Y2g=", "aSBhbSBzdXBlciBwcm8="];
-                pack = [atob(pack[0]), [atob(pack[1])]];
-            const code = '6LevKusUAAAAAAFknhlV8sPtXAk5Z5dGP5T2FYIZ';
-            const generateToken = () => unsafeWindow.grecaptcha.execute(code, { action : 'homepage' });
-            let botcount = (window.location.hostname == "sandbox.moomoo.io") ? 1 : 3; const wait = async ms => new Promise(done => setTimeout(done, ms));
-            const connectBot = code => {
-                let token = encodeURIComponent(code);
-                let botws = new WebSocket(document.ws.url.split("&")[0] + "&token=" + token);
-                botws.binaryType = 'arraybuffer';
-
-                botws.emit = (data) => {
-                    //console.log('attempting to send: ', data, ' on', botws);
-                    botws.send(msgpack.encode(data));
-                };
-
-                botws.onopen = async () => {
-                    console.log('WS OPENED!');
-                    await wait(100);
-                    botws.emit(['sp', [{ name: 'AttackX', moofoll: '1', skin: "__proto__" }]]);
-
-                    botws.emit(["8", [genRand("attackx")]]);
-                    botws.healON = true;
-                    setInterval(()=>{
-                        let _ds = Math.sqrt(((myPlayer.x - botws.posx)**2) + ((myPlayer.y - botws.posy)**2));
-                        if (_ds > 300) {
-                            let follow = Math.atan2((myPlayer.y - botws.posy), (myPlayer.x- botws.posx));
-                            botws.emit([33, [follow]]);
-                            botws.emit([2, [Number.MAX_VALUE]]);
-                            botws.emit(["c", [1]]);
-                            botws.healON = true;
-                        } else {
-                            botws.healON = false;
-                            botws.emit([33, [null]]);
-                            botws.emit(["c", [0]]);
-                        };
-                        botws.emit([pack[0], [genRand(pack[1][0])]]);
-                    }, 100);
-                };
-
-                botws.onclose = () => {
-                    console.log('WS CLOSED :(');
-                };
-
-                botws.onerror = () => {
-                    console.log('WS ERROR :(');
-                };
-
-                botws.c = 0;
-                botws.onmessage = message => {
-                    let temp = msgpack.decode(new Uint8Array(message.data));
-                    let data;
-                    if(temp.length > 1) {
-                        data = [temp[0], ...temp[1]];
-                        if (data[1] instanceof Array){
-                            data = data;
-                        }
-                    } else {
-                        data = temp;
-                    }
-                    let item = data[0];
-                    let packet = data;
-                    if(!data) {return};
-
-                    //console.log(packet);
-
-                    if (item == "h" && botws.healON) {
-                        setTimeout(()=>{
-                            botws.emit(["5", [0, null]]);
-                            botws.emit(["c", [1, 0]]);
-                            botws.emit(["c", [0, 0]]);
-                        }, botws.c == 2 ? 90 : 0);
-                        botws.c++, botws.c > 2 ? (botws.c = 0) : (false);
-                    }
-
-                    if (item == 11) {
-                        botws.emit(['sp', [{ name: 'AttackX', moofoll: '1', skin: "__proto__" }]]);
-                    };
-
-                    if (item === '1' && ws.id == null) {
-                        botws.id = packet[1];
-                    };
-
-                    if (item === '33') {
-                        for(let i = 0; i < packet[1].length / 13; i++) {
-                            let playerInfo = packet[1].slice(13*i, 13*i+13);
-                            if(playerInfo[0] == botws.id) {
-                                botws.id = playerInfo[0];
-                                botws.posx = playerInfo[1];
-                                botws.posy = playerInfo[2];
-                                botws.dir = playerInfo[3];
-                                botws.object = playerInfo[4];
-                                botws.weapon = playerInfo[5];
-                                botws.clan = playerInfo[7];
-                                botws.isLeader = playerInfo[8];
-                                botws.hat = playerInfo[9];
-                                botws.accessory = playerInfo[10];
-                                botws.isSkull = playerInfo[11];
-                            };
-                        };
-                    };
-
-                };
-            };
-return;
-
-connectBot();
-connectBot();
-connectBot();
