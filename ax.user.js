@@ -912,7 +912,7 @@ async function handleMessage(a) {
         place(foodType, null);
         await sleep(100);
     }
-if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+if (d == 'h' && c[0x1] == myPlayer.id) {
     setTimeout(()=>{
         function yes() {
     if (c[0x2] < 0x20 && c[0x2] > 0x0) {
@@ -938,7 +938,7 @@ if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
         
 
 
-    if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+    if (d == 'h' && c[0x1] == myPlayer.id) {
      ka2.last = c[0x2];
         if (c[0x2] < 0x64 && c[0x2] > 0x0) {
             if (document.getElementById('spikeh').checked) {
@@ -973,7 +973,7 @@ if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
         }
     }
     update();
-    if(d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+    if(d == "h" && c[0x1] == myPlayer.id) {
         if(c[0x2] < 45 && c[0x2] > 0) {
             setTimeout(()=>{
             place(foodType);
@@ -981,7 +981,7 @@ if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
 
         }
     }
-    if (d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+    if (d == "h" && c[0x1] == myPlayer.id) {
         if (c[0x2] < 20 && c[0x2] > 0) {
 
                 storeBuy(6);
