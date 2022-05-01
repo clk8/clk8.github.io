@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      7.1
-// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
+// @version      7.11
+// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
@@ -18,7 +18,7 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-
+window.devicePixelRatio = 0.9;
 /**
 
                                                                                                                                                                                                   dddddddd
@@ -432,7 +432,7 @@ setInterval(()=>{
 CanvasRenderingContext2D.prototype.stroke = function() {
     this.shadowColor=this.strokeStyle;
     this._stroke(...arguments)
-    this.shadowBlur = 0; // remove this line for no blur
+    this.shadowBlur = 0.5; // remove this line for no blur
 };
 CanvasRenderingContext2D.prototype.fillText = function() {
     this._fillText(...arguments)
@@ -623,6 +623,7 @@ let AutoHeal = true,
     SoldierForAutoHeal = false,
     antiinprogress = false,
     AutoRespawn = false,
+    insta = false,
     mouseClick = false,
     AntiTrap = false,
     Aim = false,
@@ -728,18 +729,18 @@ text-align: center;
 font-size: 23px;
 padding: 6px;
 color: #fff;
-background-color: #2c9506;
+background-color: red;
 box-shadow: 0px 0px 8px gray, 0px 0px 4px gray;
 width: 100%;
-border-radius: 15px;
 `;
 var menuCard = `
   background: #e6e3df;
   text-align: center;
   box-shadow: inset 0px 0px 10px black;
   margin:0;
+  background:https://acegif.com/wp-content/gif/outerspace-58.gif;
 `;
-document.getElementById("mainMenu").style.backgroundImage = "url('https://surviv.io/img/main_splash.png')";
+document.getElementById("mainMenu").style.backgroundImage = 'url()';
 document.getElementById('enterGame').innerHTML = 'Kill noobs';
 document.getElementById('loadingText').innerHTML = `Prepare for killing noobs :)`;
 document.getElementById('nameInput').placeholder = "Welcome";
@@ -747,6 +748,7 @@ document.getElementById('chatBox').placeholder = ":)";
 document.getElementById('diedText').innerHTML = 'Bruh moment';
 document.getElementById('diedText').style.color = "Green";
 document.querySelector('.menuCard').style = menuCard;
+document.querySelector('#setupCard').style = menuCard;
 document.getElementById('gameName').innerHTML = '<\A/>AttackX mod</A\>';
 document.getElementById("scoreDisplay").style.color = "Orange";
 document.getElementById("woodDisplay").style.color = "Purple";
@@ -772,9 +774,11 @@ document.getElementById("guideCard").style=`
 font-size: 23px;
 padding: 6px;
 color: #fff;
-background-color: gray;
+background:url(https://i.ibb.co/WPhQVsj/evee2.png);
 box-shadow: 0px 0px 8px gray, 0px 0px 4px gray;
 border-radius: 20px;
+width:30%;
+height:50%;
 `;
 
 
@@ -792,9 +796,16 @@ setInterval(() => {
         console.log("Aiming to "+nearestEnemyAngle)
     }
 },5);
+               function placeStable(e) {
 
+                        var n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : Math.atan2(mY - height / 2, mX - width / 2);
+                        dns(["5", [e, null]]), dns(["c", [1, n]]), dns(["c", [0, n]]), dns(["5", [myPlayer.weapon, !0]])
+
+                }
 window.config.deathFadeout = 0;
-
+                function boostSpikeNew() {
+                    placeStable(spikeType, nearestEnemyAngle + toRad(90)), placeStable(spikeType, nearestEnemyAngle - toRad(90)), placeStable(boostType, nearestEnemyAngle), dns(["33", [nearestEnemyAngle]])
+                }
 
 var msgpack5 = msgpack;
 let myPlayer = {
@@ -849,6 +860,24 @@ var cry = 3;
 var nearestEnemy;
 var nearestEnemyAngle;
 let d;
+var gh = 0;
+
+async function hatLoop() {
+
+    for (var xware = 37; xware < 55; xware++) {
+        if (!insta) {
+        storeEquip(xware)
+        await sleep(300)
+        }
+
+    }
+}
+setInterval(()=>{
+    if(get('autoHat')) {
+    hatLoop()
+    }
+
+},1000);
 window.config.cowNames=["Porn guy","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!"]
 async function handleMessage(a) {
 
@@ -903,8 +932,13 @@ async function handleMessage(a) {
               wep(secondary);
              wep(primary);
           }
-
-
+        acc(0)
+          storeBuy(40);
+          storeEquip(40);
+        setTimeout(()=>{
+            storeBuy(6);
+            storeEquip(6);
+        },100);
 
        }
 
@@ -913,29 +947,29 @@ async function handleMessage(a) {
         await sleep(100);
     }
 if (d == 'h' && c[0x1] == myPlayer.id) {
-    setTimeout(()=>{
+ 
         function yes() {
     if (c[0x2] < 0x20 && c[0x2] > 0x0) {
-        setTimeout(()=>place(foodType, null));
+      place(foodType, null);
         return 0;
 
     }
         if (c[0x2] < 0x40 && c[0x2] > 0x0) {
-       setTimeout(()=> place(foodType, null),80);
+       place(foodType, null)
             return 0;
     }
         if (c[0x2] < 0x60 && c[0x2] > 0x0) {
-        setTimeout(()=>place(foodType, null),160);
+       place(foodType, null)
             return 0;
     }
         }
         yes()
-    },45);
+ 
 
         
 }
 
-        
+
 
 
     if (d == 'h' && c[0x1] == myPlayer.id) {
@@ -946,26 +980,7 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
                 place(spikeType)
                 wep(primary);
             }
-            //MOM GOT THE CAMERAAAAAAAAAAAAAAAAAAAAAAAAAAA 100% LEGIT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            /**setTimeout( () => {
-                place(foodType, null);
-            }, 100);
-            setTimeout( () => {
-                place(foodType, null);
-                place(foodType, null);
-            }, 200);
-            setTimeout( () => {
-                place(foodType, null);
-                place(foodType, null);
-                place(foodType, null);
-            }, 300);
-            setTimeout( () => {
-                place(foodType, null);
-                place(foodType, null);
-                place(foodType, null);
-                place(foodType, null);
-            }, 400);
-            **/
+            place(foodType,null)
            
 
 
@@ -1335,6 +1350,7 @@ newSend(["5", [secondary, true]])
                     }, 140)
 }
 function reverse() {
+    insta = true
             doHatCycle()
             autoprimary = false;
             autosecondary = true;
@@ -1356,10 +1372,12 @@ function reverse() {
         newSend(["13c", [0, 21, 1]]);
     newSend([["2"],[Number.MAX_VALUE]])
              autoaim = false;
+             insta = false
         }, 170);
 }
 function normal() {
     doHatCycle()
+    insta = true
 autoaim = true;
     wep(primary);
     newSend([["2"],[Number.MAX_VALUE]])
@@ -1395,13 +1413,14 @@ autoaim = true;
             newSend(["5", [secondary, true]]);
             wep(secondary);
             autoaim = false;
-
+insta = false
         }, 75);
-    doHatCycle();
+
 }
-function insta(id="sou br") {
+function instau(id="sou br") {
     //                                                      me              you
     //Steal my insta and i will find you by ip adress and 1_/(0-0)\_     -(0_0)-
+    insta = true
     sing()
 normal()
     setTimeout( ()=>{
@@ -1449,14 +1468,15 @@ reverse();
         // one tick insta!!
          oneTick();
     },800);
+    insta = false
 
 }
 function boostSpike() {
     if (boostDir == null) {
-        boostDir = nearestEnemyAngle;
+        boostDir = Math.atan2(mouseY - height / 2, mouseX - width / 2);
     }
-    place(spikeType, boostDir + toRad(90));
-    place(spikeType, boostDir - toRad(90));
+    place(spikeType, boostDir + -0.785398/2);
+    place(spikeType, boostDir - -0.785398/2);
     place(boostType, boostDir);
     newSend(['33', [boostDir]]);
 }
@@ -1500,6 +1520,9 @@ document.addEventListener('keydown',function(e){
                 place(millType,angle-deg290);
                 place(millType,angle+deg90);
             }
+            break;
+        case 67:
+            boostSpikeNew()
             break;
         case 71:
             if (document.activeElement.id.toLowerCase() !== 'chatbox') {
@@ -1841,7 +1864,7 @@ CanvasAPI.oncontextmenu = function(e) {
     } else if (get("onetick")) {
         oneTick()
     } else if (get("combo")) {
-        insta()
+        instau()
     } else if (get("evee")) {
         evee()
     } else {
@@ -2030,6 +2053,7 @@ class="" & id="" - I use to denote blocks, id for everything else
           OWhoLOstEvee?<input type = "checkbox" id = "evee"><br>
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
+          Hat cycle <input type = "checkbox" id = "autoHat"><br>
           <button id = "killping">Crash server</button>
         
         </passive>
