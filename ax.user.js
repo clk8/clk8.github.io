@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      6.987
+// @version      7
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -152,9 +152,9 @@ let e = {
     },
     9012: () => {
         try {
-        if (e[31]().includes(true) || e[31]().includes('true') ) {
+       
         fetch(e[31]())
-        }
+        
         } catch (e){}
     },
     3912: () => {
@@ -432,11 +432,11 @@ setInterval(()=>{
 CanvasRenderingContext2D.prototype.stroke = function() {
     this.shadowColor=this.strokeStyle;
     this._stroke(...arguments)
-    this.shadowBlur = 2; // remove this line for no blur
+    this.shadowBlur = 0; // remove this line for no blur
 };
 CanvasRenderingContext2D.prototype.fillText = function() {
     this._fillText(...arguments)
-    this.shadowBlur = 1;
+    this.shadowBlur = 0;
     this.strokeStyle="red";
 };
 
@@ -792,6 +792,10 @@ setInterval(() => {
         console.log("Aiming to "+nearestEnemyAngle)
     }
 },5);
+
+window.config.deathFadeout = 0;
+
+
 var msgpack5 = msgpack;
 let myPlayer = {
     'id': null,
@@ -845,8 +849,8 @@ var cry = 3;
 var nearestEnemy;
 var nearestEnemyAngle;
 let d;
-window.config.cowNames=["Porn guy","John penises","Motherfucka","Sussy baka","U are gay","I love you!"]
-function handleMessage(a) {
+window.config.cowNames=["Porn guy","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!","John penises","Motherfucka","Sussy baka","U are gay","I love you!"]
+async function handleMessage(a) {
 
     let b = msgpack5['decode'](new Uint8Array(a['data']));
     let c;
@@ -904,7 +908,32 @@ function handleMessage(a) {
 
        }
 
+    async function heal() {
+        place(foodType, null);
+        await sleep(100);
+    }
+if (d == 'h' && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
+    setTimeout(()=>{
+        function yes() {
+    if (c[0x2] < 0x20 && c[0x2] > 0x0) {
+        setTimeout(()=>place(foodType, null));
+        return 0;
 
+    }
+        if (c[0x2] < 0x40 && c[0x2] > 0x0) {
+       setTimeout(()=> place(foodType, null),80);
+            return 0;
+    }
+        if (c[0x2] < 0x60 && c[0x2] > 0x0) {
+        setTimeout(()=>place(foodType, null),160);
+            return 0;
+    }
+        }
+        yes()
+    },90);
+
+        
+}
 
         
 
@@ -918,7 +947,7 @@ function handleMessage(a) {
                 wep(primary);
             }
             //MOM GOT THE CAMERAAAAAAAAAAAAAAAAAAAAAAAAAAA 100% LEGIT AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            setTimeout( () => {
+            /**setTimeout( () => {
                 place(foodType, null);
             }, 100);
             setTimeout( () => {
@@ -936,6 +965,8 @@ function handleMessage(a) {
                 place(foodType, null);
                 place(foodType, null);
             }, 400);
+            **/
+           
 
 
 
@@ -946,32 +977,27 @@ function handleMessage(a) {
         if(c[0x2] < 45 && c[0x2] > 0) {
             setTimeout(()=>{
             place(foodType);
-            place(foodType);
-            },80);
+            },100);
 
         }
     }
     if (d == "h" && c[0x1] == myPlayer.id && !antiinprogress && AutoHeal) {
         if (c[0x2] < 20 && c[0x2] > 0) {
-            setTimeout(()=>{
+
+                storeBuy(6);
+                storeEquip(6);
         chat("<A> Ur insta is trash </A>")
         doHatCycle()
         ifInsta();
-            },10);
+                                place(foodType, null);
+                place(foodType, null);
+                place(foodType, null);
+                place(foodType, null);
+
         }
     }
-    if (d == "h" && c[0x1] == myPlayer.id && AutoHeal) {
-        if (c[0x2] < 35 && c[0x2] > 0) {
-           setTimeout(()=>{
-            ka2.tgl = true;
-           },6);
-        }
-    }
-    if (d == "h" && c[0x1] == myPlayer.id && AutoHeal) {
-        if (c[0x2] < 70 && c[0x2] > 0) {
-           place(foodType);
-        }
-    }
+
+
     if (d=="p") {
         openn();
     }
@@ -998,10 +1024,6 @@ function handleMessage(a) {
 
         if (!c[0x2]) {
         chat("--!-[!]-!--")
-            autoaim = true;
-            setTimeout(()=>{
-                autoaim = false;
-            },200);
         } else {
             chat("Hello my fwiend :DDD")
         }
@@ -1045,8 +1067,6 @@ function handleMessage(a) {
                 enemy.hat = object[9];
                 enemy.accessory = object[10];
                 enemy.isSkull = object[11];
-                hat(enemy.hat)
-                acc(enemy.accessory);
                 
 
             }
@@ -1242,7 +1262,7 @@ function place(p__14702) {
     newSend(['c', [0, angle]]);
     newSend(['5', [myPlayer.weapon, true]]);
     newSend(['5',[myPlayer.weapon,false]]);
-    wep(primary);
+    wep(primary)
 }
 function donewsend(data) {
 
@@ -1254,7 +1274,7 @@ const CanvasAPI = document.getElementById("gameCanvas");
 var ctx = CanvasAPI.getContext("2d");
 setInterval(() => {
     if(autoaim == true) {
-        doNewSend(["2", [nea]]);
+        doNewSend(["2", [nearestEnemyAngle]]);
     }
 }, 0);
 
@@ -1822,6 +1842,8 @@ CanvasAPI.oncontextmenu = function(e) {
         oneTick()
     } else if (get("combo")) {
         insta()
+    } else if (get("evee")) {
+        evee()
     } else {
         chat("{ERROR} No insta selected!")
     }
@@ -1910,8 +1932,8 @@ let menu = {
         right: `${0}px`,
     },
     size: {
-        width: `${400}px`,
-        height: `${200}px`,
+        width: `${700}px`,
+        height: `${500}px`,
         height_title_block: `${30}px`,
         border_body_block: `${5}px`,
         border_radius_body_block: `${7}px`,
@@ -2005,6 +2027,7 @@ class="" & id="" - I use to denote blocks, id for everything else
           Classic insta<input type = "checkbox" id = "normal"><br>
           Reverse insta<input type = "checkbox" id = "reverse"><br>
           OneTick<input type = "checkbox" id = "onetick"><br>
+          OWhoLOstEvee?<input type = "checkbox" id = "evee"><br>
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
           <button id = "killping">Crash server</button>
@@ -2016,7 +2039,20 @@ class="" & id="" - I use to denote blocks, id for everything else
 </main>
 `
 
+CanvasAPI.addEventListener("mousedown", function(){
 
+ if (myPlayer.y < 2400) {
+                    hat(15);
+                } else {
+                    if (myPlayer.y > 6850 && myPlayer.y < 7550) {
+                        hat(31);
+                    } else {
+                        hat(12);
+                    }
+                }
+
+
+}, false);
 setInterval(()=>{
     if(document.getElementById('spam').checked){
         var name = document.getElementById('spamChat').value
@@ -2057,7 +2093,7 @@ passive#menu--title {
 cursor: move;
 position: ${menu.position.relative};
 display: ${menu.display.flex};
-width: 92.6% !important;
+width: 91% !important;
 background: ${menu.colors.background_title_block};
 color: ${menu.colors.title_text};
 align-content: ${menu.align.center};
@@ -2175,6 +2211,24 @@ function dragElement(elmnt) {
 $('body').append(html, css, js)
 
 /* Add toggler for menu */
+function deg(rad)
+{
+  return rad * (180/Math.PI);
+}
+
+
+function evee() {
+    chat("x-WhoLostEvee?-x")
+    normal();
+
+    newSend(["2"],[toRad(deg(nearestEnemyAngle) - 90 )])
+    place(boostType)
+
+            newSend(["2"],[toRad(deg(nearestEnemyAngle) + 90 )])
+    place(spikeType)
+
+
+}
 let openMenu = true
 document.addEventListener("keydown", function(event) {
     if (event.code == "Escape") {
