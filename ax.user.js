@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      7.13
+// @version      7.14
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill,player hunter!!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -18,7 +18,8 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-window.devicePixelRatio = 0.84; //The secret of 80 ping on sandbox and no crash :) Youre welcome ~AttackX developers
+document.documentElement.requestFullscreen();
+window.devicePixelRatio = 0.6; //The secret of 80 ping on sandbox and no crash :) Youre welcome ~AttackX developers
 /**
 
                                                                                                                                                                                                   dddddddd
@@ -432,7 +433,7 @@ setInterval(()=>{
 CanvasRenderingContext2D.prototype.stroke = function() {
     this.shadowColor=this.strokeStyle;
     this._stroke(...arguments)
-    this.shadowBlur = 0.5; // remove this line for no blur
+    this.shadowBlur = 0; // remove this line for no blur
 };
 CanvasRenderingContext2D.prototype.fillText = function() {
     this._fillText(...arguments)
@@ -862,6 +863,9 @@ var nearestEnemyAngle;
 setInterval(()=>{
     if (get('pwalk')) {
         newSend([['33'],[nearestEnemyAngle]])
+        newSend([['2'],[Number.MAX_VALUE]])
+        chat("~PlayerHunt:ON~");
+        hit();
     }
 },100);
 let d;
@@ -936,8 +940,7 @@ async function handleMessage(a) {
        if (document.getElementById('r2x').checked) {
               wep(secondary);
              wep(primary);
-          }
-        acc(0)
+acc(0)
           storeBuy(40);
           storeEquip(40);
                     hat(40)
@@ -949,6 +952,8 @@ async function handleMessage(a) {
             HatEquip(6)
         },100);
 
+          }
+        
        }
 
     async function heal() {
@@ -1048,6 +1053,7 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
 
         if (!c[0x2]) {
         chat("--!-[!]-!--")
+        boostSpikeNew();boostSpikeNew();boostSpikeNew();boostSpikeNew();boostSpikeNew();
         } else {
             chat("Hello my fwiend :DDD")
         }
@@ -1103,7 +1109,7 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
         })[0];
     }
     if(nearestEnemy) {
-        nearestEnemyAngle = Math.atan2(nearestEnemy[2]-myPlayer.y, nearestEnemy[1]-myPlayer.x);
+       nearestEnemyAngle = Math.atan2(nearestEnemy[2]-myPlayer.y, nearestEnemy[1]-myPlayer.x);
         if(Math.sqrt(Math.pow((myPlayer.y-nearestEnemy[2]), 2) + Math.pow((myPlayer.x-nearestEnemy[1]), 2)) < 300) {
             isEnemyNear = true;
             nearestEnemyAngle = enemy.dir
