@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      7.11
+// @version      7.12
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -18,7 +18,7 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-window.devicePixelRatio = 0.9;
+window.devicePixelRatio = 0.84;
 /**
 
                                                                                                                                                                                                   dddddddd
@@ -926,7 +926,7 @@ async function handleMessage(a) {
     if (d == '1' && myPlayer.id == null) {
         myPlayer.id = c[0x1];
     }
-    if (d == '7') {
+    if (d == '7' && c[0x1] == myPlayer.id) {
 
        if (document.getElementById('r2x').checked) {
               wep(secondary);
@@ -935,9 +935,13 @@ async function handleMessage(a) {
         acc(0)
           storeBuy(40);
           storeEquip(40);
+                    hat(40)
+            HatEquip(40)
         setTimeout(()=>{
             storeBuy(6);
             storeEquip(6);
+            hat(6)
+            HatEquip(6)
         },100);
 
        }
