@@ -998,19 +998,25 @@ acc(0)
     if (c[0x2] < 47 && c[0x2] > 0) {
         chat("<A>AntiInsta by MPAK</A>");
         hat(6)
+        HatEquip(6)
 
                     place(foodType, null);
                     place(foodType, null);
                        setTimeout(()=>{
+                           chat("Primary!!")
                 place(foodType, null);
                     place(foodType, null);
                     place(foodType, null);
                     place(foodType, null);
                 },30);
         setTimeout(()=>{
+            chat("Secondary!!!")
                 hat(22);
                 acc(21);
-        },70);
+                                place(foodType, null);
+                    place(foodType, null);
+                    place(foodType, null);
+        },120);
     }
     }
     if (d == "h" && c[0x1] == myPlayer.id) {
