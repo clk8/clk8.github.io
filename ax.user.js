@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      7.12
-// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill!!
+// @version      7.13
+// @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill,player hunter!!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
 // @match        *://moomoo.io/*
@@ -18,7 +18,7 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
-window.devicePixelRatio = 0.84;
+window.devicePixelRatio = 0.84; //The secret of 80 ping on sandbox and no crash :) Youre welcome ~AttackX developers
 /**
 
                                                                                                                                                                                                   dddddddd
@@ -859,6 +859,11 @@ function socketFound(a) {
 var cry = 3;
 var nearestEnemy;
 var nearestEnemyAngle;
+setInterval(()=>{
+    if (get('pwalk')) {
+        newSend([['33'],[nearestEnemyAngle]])
+    }
+},100);
 let d;
 var gh = 0;
 
@@ -2058,6 +2063,7 @@ class="" & id="" - I use to denote blocks, id for everything else
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
           Hat cycle <input type = "checkbox" id = "autoHat"><br>
+          PlayerHunter <input type = "checkbox" id = "pwalk"><br>
           <button id = "killping">Crash server</button>
         
         </passive>
