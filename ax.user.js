@@ -1010,12 +1010,22 @@ acc(0)
                     place(foodType, null);
                 },30);
         setTimeout(()=>{
-            chat("Secondary!!!")
-                hat(22);
+            chat("Turret!!")
+             hat(22);
                 acc(21);
+                             place(foodType, null);
+        },50);
+        setTimeout(()=>{
+            chat("Secondary!!!")
+
                                 place(foodType, null);
                     place(foodType, null);
-                    place(foodType, null);
+                    setTimeout(()=>{
+                        place(foodType, null);
+                    },10);
+              setTimeout(()=>{
+                        place(foodType, null);
+                    },10);
         },120);
     }
     }
