@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         <\\A//>AttackX by MPAK<//A\\>
 // @namespace    http://tampermonkey.net/
-// @version      7.14
+// @version      7.15
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill,player hunter!!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -430,21 +430,6 @@ setInterval(()=>{
         CanvasRenderingContext2D.prototype.rotate=oldRotate
     }
 },100);
-CanvasRenderingContext2D.prototype.stroke = function() {
-    this.shadowColor=this.strokeStyle;
-    this._stroke(...arguments)
-    this.shadowBlur = 0; // remove this line for no blur
-};
-CanvasRenderingContext2D.prototype.fillText = function() {
-    this._fillText(...arguments)
-    this.shadowBlur = 0;
-    this.strokeStyle="red";
-};
-
-CanvasRenderingContext2D.prototype.strokeText = function() {
-    this.strokeStyle = "transparent"
-    this._strokeText(...arguments);
-};
 let hue = 0;
 function checker(c,e) {
     if(c) {
@@ -866,6 +851,11 @@ setInterval(()=>{
         newSend([['2'],[Number.MAX_VALUE]])
         chat("~PlayerHunt:ON~");
         hit();
+                        newSend(["6", [5]]);//polearm
+                newSend(["6", [17]]);//cookie
+                newSend(["6", [31]]);//trap
+                newSend(["6", [27]]);//better mill
+                newSend(["6", [38]]);//tp
     }
 },100);
 let d;
@@ -953,31 +943,24 @@ acc(0)
         },100);
 
           }
-        
-       }
-
-    async function heal() {
-        place(foodType, null);
-        await sleep(100);
-    }
-if (d == 'h' && c[0x1] == myPlayer.id) {
- 
-        function yes() {
-    if (c[0x2] < 0x20 && c[0x2] > 0x0) {
-      place(foodType, null);
-        return 0;
-
-    }
-        if (c[0x2] < 0x40 && c[0x2] > 0x0) {
-       place(foodType, null)
-            return 0;
-    }
-        if (c[0x2] < 0x60 && c[0x2] > 0x0) {
-       place(foodType, null)
-            return 0;
-    }
+        if (d == 'h' && c[0x1] == myPlayer.id && c[0x2] < 0x64 && c[0x2] > 0x38) {
+            setTimeout(() => {
+        place(foodType, null)
+                place(foodType, null)
+                place(foodType, null)
+                place(foodType, null);
+    }, 0x46)
         }
-        yes()
+                if (d == 'h' && c[0x1] ==  myPlayer['id'] && c[0x2] < 0x38 && c[0x2] > 0x0) {
+            place(foodType, null)
+                    place(foodType, null)
+                    setTimeout(() => {
+        place(foodType, null);
+    }, 0x96)
+
+
+        }
+
  
 
         
@@ -986,30 +969,8 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
 
 
 
-    if (d == 'h' && c[0x1] == myPlayer.id) {
-     ka2.last = c[0x2];
-        if (c[0x2] < 0x64 && c[0x2] > 0x0) {
-            if (document.getElementById('spikeh').checked) {
-
-                place(spikeType)
-                wep(primary);
-            }
-            place(foodType,null)
-           
-
-
-
-        }
-    }
     update();
-    if(d == "h" && c[0x1] == myPlayer.id) {
-        if(c[0x2] < 45 && c[0x2] > 0) {
-            setTimeout(()=>{
-            place(foodType);
-            },100);
 
-        }
-    }
     if (d == "h" && c[0x1] == myPlayer.id) {
         if (c[0x2] < 20 && c[0x2] > 0) {
 
@@ -1025,8 +986,71 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
 
         }
     }
+    if (d == "h" && c[0x1] == myPlayer.id) {
+        if (c[0x2] < 80 && c[0x2] > 0) {
+                setTimeout(()=>{
+                place(foodType, null);
+                },80);
 
+        }
+    }
+    if (d == "h" && c[0x1] == myPlayer.id) {
+    if (c[0x2] < 47 && c[0x2] > 0) {
+        chat("<A>AntiInsta by MPAK</A>");
+        hat(6)
 
+                    place(foodType, null);
+                    place(foodType, null);
+                       setTimeout(()=>{
+                place(foodType, null);
+                    place(foodType, null);
+                    place(foodType, null);
+                    place(foodType, null);
+                },30);
+        setTimeout(()=>{
+                hat(22);
+                acc(21);
+        },70);
+    }
+    }
+    if (d == "h" && c[0x1] == myPlayer.id) {
+        if (c[0x2] < 70 && c[0x2] > 0) {
+                setTimeout(()=>{
+                place(foodType, null);
+                },30);
+
+        }
+    }
+    if (d == "h" && c[0x1] == myPlayer.id) {
+        if (c[0x2] < 50 && c[0x2] > 0) {
+                setTimeout(()=>{
+                place(foodType, null);
+                },30);
+
+        }
+    }
+        if (d == "h" && c[0x1] == myPlayer.id) {
+        if (c[0x2] < 30 && c[0x2] > 0){
+
+                setTimeout(()=>{
+                place(foodType, null);
+                    place(foodType, null);
+                    place(foodType, null);
+                    place(foodType, null);
+                },30);
+
+        }
+    }
+           if (d == "h" && c[0x1] == myPlayer.id) {
+        if (c[0x2] < 90 && c[0x2] > 70){
+                setTimeout(()=>{
+                place(foodType, null);
+                    place(foodType, null);
+
+                },30);
+
+        }
+    }
     if (d=="p") {
         openn();
     }
@@ -1052,8 +1076,8 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
     if (d == "2") {
 
         if (!c[0x2]) {
-        chat("--!-[!]-!--")
-        boostSpikeNew();boostSpikeNew();boostSpikeNew();boostSpikeNew();boostSpikeNew();
+        chat(" TryHard incoming *;::;*")
+
         } else {
             chat("Hello my fwiend :DDD")
         }
@@ -1067,7 +1091,9 @@ if (d == 'h' && c[0x1] == myPlayer.id) {
 
 
     },5);
-
+    setInterval(()=>{
+    // TryHard ultraspin :P
+    },10);
 
     if (d == "33") {
        enemiesNear = [];
@@ -1350,6 +1376,7 @@ function oneTick() {
 newSend(["5", [secondary, true]])
     autoaim = true;
                     hat(53)
+    newSend(["ch", ['TryHard onetic *;::;*']]);
                     setTimeout(() => {
 
                         newSend([["2"],[Number.MAX_VALUE]])
@@ -1365,71 +1392,88 @@ newSend(["5", [secondary, true]])
                     }, 140)
 }
 function reverse() {
-    insta = true
-            doHatCycle()
-            autoprimary = false;
-            autosecondary = true;
-    autoaim = true;
-            newSend([["2"],[toRad(Math.atan2(mouseY - height / 2, mouseX - width / 2) - 180)]])
-            newSend(["13c", [0, 0, 0]]);
-            newSend(["13c", [1, 53, 0]]);
-            newSend(["13c", [0, 53, 0]]);
-            newSend(["5", [secondary, true]]);
-                        newSend(["13c", [0, 0, 1]]);
-         setTimeout( () => {
-        newSend(["5", [primary, true]]);
+         autoprimary = false;
+        autosecondary = true;
+        autoaim = true;
+
+        newSend(["13c", [0, 0, 1]]);
+        newSend(["5", [secondary, true]]);
         newSend(["7", [1]]);
-    newSend([["2"],[Number.MAX_VALUE]])
-        newSend(["13c", [1, 7, 0]]);
-        newSend(["13c", [0, 7, 0]]);
-    newSend([["2"],[Number.MAX_VALUE]])
+        newSend(["13c", [1, 53, 0]]);
+        newSend(["13c", [0, 53, 0]]);
         newSend(["13c", [1, 21, 1]]);
+    newSend(["ch", ['TryHard revers *;::;*']]);
         newSend(["13c", [0, 21, 1]]);
-    newSend([["2"],[Number.MAX_VALUE]])
-             autoaim = false;
-             insta = false
-        }, 170);
+        setTimeout( () => {
+            autoprimary = true;
+            autosecondary = false;
+            newSend(["13c", [1, 7, 0]]);
+            newSend(["13c", [0, 7, 0]]);
+            newSend(["13c", [0, 21, 1]]);
+            newSend(["5", [primary, true]]);
+        }, 40);
+        setTimeout( () => {
+            newSend(["13c", [0, 0, 0]]);
+            newSend(["7", [1]]);
+            newSend(["13c", [0, 11, 1]]);
+            if (myPlayer.y < 2400){
+                newSend(["13c", [0, 15, 0]]);
+            } else if (myPlayer.y > 6850 && myPlayer.y < 7550){
+                newSend(["13c", [0, 31, 0]]);
+            } else {
+                newSend(["13c", [0, 12, 0]]);
+            }
+            autoprimary = false;
+            autoaim = false;
+
+
+                autoaim = true;
+
+        }, 215);
 }
 function normal() {
-    doHatCycle()
-    insta = true
-autoaim = true;
-    wep(primary);
-    newSend([["2"],[Number.MAX_VALUE]])
+         autoaim = true;
         autoprimary = true;
         autosecondary = false;
+
+        newSend(["ch", ['TryHard insta *;::;*']]);
         newSend(["13c", [0, 0, 1]]);
-    wep(primary);
         newSend(["5", [primary, true]]);
-    wep(primary);
         newSend(["7", [1]]);
-    newSend([["2"],[Number.MAX_VALUE]])
         newSend(["13c", [1, 7, 0]]);
-    wep(primary);
         newSend(["13c", [0, 7, 0]]);
-    wep(primary);
-    newSend([["2"],[Number.MAX_VALUE]])
         newSend(["13c", [1, 21, 1]]);
-    wep(primary);
         newSend(["13c", [0, 21, 1]]);
-    wep(primary);
-    newSend([["2"],[Number.MAX_VALUE]])
         setTimeout( () => {
-            doHatCycle()
             autoprimary = false;
-            wep(secondary);
             autosecondary = true;
             newSend(["13c", [0, 0, 0]]);
-            wep(secondary);
             newSend(["13c", [1, 53, 0]]);
-            wep(secondary);
             newSend(["13c", [0, 53, 0]]);
-            wep(secondary);
             newSend(["5", [secondary, true]]);
-            wep(secondary);
+        }, 50);
+        setTimeout( () => {
+
+            newSend(["13c", [0, 0, 0]]);
+            newSend(["13c", [0, 6, 0]]);
+            newSend(["7", [1]]);
+            newSend(["5", [primary, true]]);
+            newSend(["13c", [0, 0, 1]]);
+            newSend(["13c", [0, 11, 1]]);
+            if (myPlayer.y < 2400){
+                newSend(["13c", [0, 15, 0]]);
+            } else if (myPlayer.y > 6850 && myPlayer.y < 7550){
+                newSend(["13c", [0, 31, 0]]);
+            } else {
+                newSend(["13c", [0, 12, 0]]);
+            }
+            autosecondary = false;
             autoaim = false;
-insta = false
-        }, 75);
+
+
+                autoaim = true;
+
+        }, 240);
 
 }
 function instau(id="sou br") {
