@@ -21,8 +21,7 @@
 
 
 function fs() {
-document.documentElement.requestFullscreen();
-navigator.keyboard.lock()
+
     CanvasAPI.style.cursor = 'url(https://pranx.com/fake-dos/cursor.png)';
 
 
@@ -2233,14 +2232,14 @@ class="" & id="" - I use to denote blocks, id for everything else
           Classic insta<input type = "checkbox" id = "normal"><br>
           Reverse insta<input type = "checkbox" id = "reverse"><br>
           OneTick<input type = "checkbox" id = "onetick"><br>
-          WhoLOstEvee?<input type = "checkbox" id = "evee"><br>
+          No<input type = "checkbox" id = "evee"><br>
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
           Hat cycle <input type = "checkbox" id = "autoHat"><br>
           PlayerHunter <input type = "checkbox" id = "pwalk"><br>
          AutoSpin <input type = "checkbox" id = "autospin"><br>
          Kill = crash<input type = "checkbox" id = "kill2crash"><br>
-         FullScreen<input type = "checkbox" id = "fullscreen"><br>
+         Hide cursor<input type = "checkbox" id = "fullscreen"><br>
           <button id = "killping">Crash server</button>
         
         </passive>
