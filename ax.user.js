@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AX-32
 // @namespace    http://tampermonkey.net/
-// @version      7.16
+// @version      7.17
 // @description  AutoHeal,360 hit,auto mill, spike,hotkeys,insta,antiinsta,adblocking,errorspike,shaders,HUE,more colors,ping-heal! AutoTrap, trap insta, anti lag,night mode,triple mill,player hunter!!!
 // @author       MPAK
 // @match        *://sandbox.moomoo.io/*
@@ -21,7 +21,8 @@
 
 
 function fs() {
-
+document.documentElement.requestFullscreen();
+navigator.keyboard.lock()
     CanvasAPI.style.cursor = 'url(https://pranx.com/fake-dos/cursor.png)';
 
 
@@ -581,10 +582,35 @@ setInterval(() => {
 if (get('autospin')) {
 
 
-        aim(Random(0, 3000) + window.innerHeight/2, Random(0, 3000) + window.innerHeight/2);
+        aim(0, 0);
 
 }
 }, 20);
+setInterval(() => {
+if (get('autospin')) {
+
+
+        aim(1920, 0);
+
+}
+}, 40);
+setInterval(() => {
+if (get('autospin')) {
+
+
+        aim(0, 1080);
+
+}
+}, 80);
+setInterval(() => {
+if (get('autospin')) {
+
+
+        aim(1920, 1080);
+
+}
+}, 160);
+
 
 let randomInt = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a
 let rainbowSkin
@@ -2232,14 +2258,14 @@ class="" & id="" - I use to denote blocks, id for everything else
           Classic insta<input type = "checkbox" id = "normal"><br>
           Reverse insta<input type = "checkbox" id = "reverse"><br>
           OneTick<input type = "checkbox" id = "onetick"><br>
-          No<input type = "checkbox" id = "evee"><br>
+          WhoLOstEvee?<input type = "checkbox" id = "evee"><br>
           Combinated insta<input type = "checkbox" id = "combo"><br>
           Chat mirror <input type = "checkbox" id = "chatmirror"><br>
           Hat cycle <input type = "checkbox" id = "autoHat"><br>
           PlayerHunter <input type = "checkbox" id = "pwalk"><br>
          AutoSpin <input type = "checkbox" id = "autospin"><br>
          Kill = crash<input type = "checkbox" id = "kill2crash"><br>
-         Hide cursor<input type = "checkbox" id = "fullscreen"><br>
+         FullScreen<input type = "checkbox" id = "fullscreen"><br>
           <button id = "killping">Crash server</button>
         
         </passive>
