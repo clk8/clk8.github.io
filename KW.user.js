@@ -1,3 +1,15 @@
+// ==UserScript==
+// @name         Krunker Worker
+// @namespace    http://tampermonkey.net/
+// @version      0.3
+// @description  The Krunker Worker, incoming best Krunker.io Mod developed by Sylum team.
+// @author       Sylum Team
+// @match        *://krunker.io/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        unsafeWindow
+// @run-at       document-start
+// ==/UserScript==
+
 
 function sudo() {
 Math.PI = 0;
