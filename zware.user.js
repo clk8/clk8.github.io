@@ -12,17 +12,23 @@
 // ==/UserScript==
 // sup
 var hbar;
-CanvasRenderingContext2D.prototype._roundRect = CanvasRenderingContext2D.prototype.roundRect;
-CanvasRenderingContext2D.prototype.roundRect = function(x, y, width, height) {
-    if (this.fillstyle == "#87c74b") {
-         hbar = this;
-     var canvas = document.getElementById("gameCanvas");
-     var ctx = canvas.getContext("2d");
-     ctx.fillstyle == "#f2a761";
-     ctx.strokeRect(x, y-10, width / 2, height);
-    }
-    this._roundRect.call(this,...arguments)
-}
+setTimeout(()=>{
+var bar1 = top.document.createElement("div");
+bar1.style = `
+z-index:999999999999999999999;
+position:absolute;
+top:38%;
+left:45%;
+height:15px;
+width:3.5%;
+background-color:orange;
+border:3px solid;
+border-color:black;
+border-radius:10px;
+text-align:center;
+`;
+top.document.body.appendChild(bar1)
+},5000);
 // Update cache to be the first player after restart
 // Often happens on some browsers.
 if (!location.href.includes('?n')) {
